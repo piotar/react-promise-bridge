@@ -5,7 +5,6 @@ on:
     types: [created]
 
 jobs:
-  build:
   publish-npm:
     runs-on: ubuntu-latest
     steps:
