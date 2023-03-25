@@ -1,0 +1,56 @@
+{
+    "name": "@piotar/react-promise-bridge",
+    "version": "0.0.0",
+    "description": "A library that allows you to easily manage components that ultimately return a value as a `Promise` in `React`.",
+    "keywords": [
+        "promsie bridge",
+        "react modal",
+        "react popups",
+        "react toastr",
+        "react messages",
+        "react promise bridge",
+        "react utils",
+        "react promise"
+    ],
+    "author": "Piotr Tarasiuk",
+    "license": "MIT",
+    "type": "module",
+    "files": [
+        "dist"
+    ],
+    "main": "./dist/react-promise-bridge.umd.cjs",
+    "module": "./dist/react-promise-bridge.js",
+    "types": "./dist/types/",
+    "exports": {
+        ".": {
+            "import": "./dist/react-promise-bridge.js",
+            "require": "./dist/react-promise-bridge.umd.cjs"
+        }
+    },
+    "scripts": {
+        "dev": "vite",
+        "build": "tsc && vite build",
+        "test": "vitest run",
+        "prettier": "prettier --write --ignore-unknown ./src/**/*.{ts,tsx,json}",
+        "prepare": "husky install",
+        "prepublishOnly": "npm run build"
+    },
+    "peerDependencies": {
+        "react": "^16.14.0"
+    },
+    "devDependencies": {
+        "@types/react": "^18.0.29",
+        "@vitejs/plugin-react": "^3.1.0",
+        "husky": "^8.0.3",
+        "lint-staged": "^13.2.0",
+        "prettier": "^2.8.7",
+        "react": "^18.2.0",
+        "typescript": "^5.0.2",
+        "vite": "^4.2.1",
+        "vite-plugin-dts": "^2.1.0",
+        "vitest": "^0.29.7"
+    },
+    "lint-staged": {
+        "**/*.{js,ts,json}": "prettier --write --ignore-unknown"
+    }
+}
