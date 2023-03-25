@@ -123,7 +123,7 @@ setTimeout(async () => {
 
 Try it on:
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz_small.svg)](https://stackblitz.com/github/piotar/react-promise-bridge/examples/01_basic)
+[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz_small.svg)](https://stackblitz.com/github/piotar/react-promise-bridge/tree/main/examples/01_basic)
 
 ## Examples
 
