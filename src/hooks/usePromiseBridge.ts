@@ -1,4 +1,5 @@
 import { useContext } from 'react';
+import { PromiseBridgeException } from '../exceptions/PromiseBridgeException';
 import { PromiseBridgeContext, PromiseContextType } from '../PromiseBridgeContext';
 
 export function usePromiseBridge<T, R = any>(): PromiseContextType<T, R> {
@@ -6,5 +7,5 @@ export function usePromiseBridge<T, R = any>(): PromiseContextType<T, R> {
     if (context) {
         return context;
     }
-    throw new Error('Missing Promise Bridge context');
+    throw new PromiseBridgeException('Missing Promise Bridge context');
 }

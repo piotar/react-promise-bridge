@@ -5,7 +5,12 @@ import { ContainerNotMountedException } from '../exceptions/ContainerNotMountedE
 import { EntryExistsException } from '../exceptions/EntryExistsException';
 import { EntryRecreateException } from '../exceptions/EntryRecreateException';
 import { MissingEntryIdException } from '../exceptions/MissingEntryIdException';
-import { CreateEntryOptions, EntryStategy } from '../promiseBridge.types';
+import {
+    CreateEntryOptions,
+    EntryStategy,
+    NormalStrategyCreateEntryOptions,
+    RecreateOrRejectStrategyCreateEntryOptions,
+} from '../promiseBridge.types';
 import { PromiseBridgeEntry } from './PromiseBridgeEntry';
 import { PromiseBridgeSubscription } from './PromiseBridgeSubscription';
 
@@ -40,25 +45,35 @@ export class PromiseBridge {
         this.subscription.dispatch('sync', this.entries);
     }
 
+    private entryStrategyGuard(
+        options: RecreateOrRejectStrategyCreateEntryOptions | NormalStrategyCreateEntryOptions,
+    ): void {
+        switch (options.strategy) {
+            case EntryStategy.Recreate:
+                if (!options.id) {
+                    throw new MissingEntryIdException();
+                }
+                return void this.entries.find(({ id }) => id === options.id)?.reject(new EntryRecreateException());
+            case EntryStategy.RejectIfExists:
+                if (!options.id) {
+                    throw new MissingEntryIdException();
+                }
+                if (this.entries.some(({ id }) => id === options.id)) {
+                    throw new EntryExistsException();
+                }
+                return void 0;
+            case EntryStategy.Normal:
+            default:
+                return void 0;
+        }
+    }
+
     private entryGuard(options: CreateEntryOptions): void {
         if (!this.subscription.count('sync')) {
             throw new ContainerNotMountedException();
         }
-
         if ('strategy' in options) {
-            if (options.strategy !== EntryStategy.Normal) {
-                if (!options.id) {
-                    throw new MissingEntryIdException();
-                }
-                if (options.strategy === EntryStategy.Recreate) {
-                    this.entries.find((x) => x.id === options.id)?.reject(new EntryRecreateException());
-                } else if (
-                    options.strategy === EntryStategy.RejectIfExists &&
-                    this.entries.some((x) => x.id === options.id)
-                ) {
-                    throw new EntryExistsException();
-                }
-            }
+            this.entryStrategyGuard(options);
         }
     }
 
@@ -71,7 +86,9 @@ export class PromiseBridge {
         const entry = new PromiseBridgeEntry<T>(component, entryOptions);
         this.sync([...this.entries, entry]);
         return entry.promise.finally(() => {
-            this.sync(this.entries.filter((e) => e !== entry));
+            if (this.entries.length) {
+                this.sync(this.entries.filter((e) => e !== entry));
+            }
         });
     }
 

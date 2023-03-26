@@ -16,7 +16,9 @@ export class Subscription<A extends SubscriptionActions = SubscriptionActions> {
         };
     }
 
-    public dispatch<K extends keyof A>(name: K, data?: A[K]) {
+    public dispatch<K extends keyof A>(name: A[K] extends Object ? never : K): void;
+    public dispatch<K extends keyof A>(name: K, data: A[K]): void;
+    public dispatch<K extends keyof A>(name: K, data?: A[K]): void {
         for (const record of this.listeners) {
             if (record.name === name) {
                 record.listener(data);

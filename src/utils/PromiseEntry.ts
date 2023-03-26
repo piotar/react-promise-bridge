@@ -14,10 +14,12 @@ export class PromiseEntry<T> extends PromiseDefer<T, unknown> {
     public readonly entryId = PromiseEntry.counter.generate();
     protected readonly abortController: AbortController = new AbortController();
     private readonly dettachAbortSignal?: () => void;
+    private readonly dettachInternalAbortSignal?: () => void;
 
     constructor(options?: PromiseEntryOptions) {
         super();
         this.dettachAbortSignal = this.attachAbortSignal(options?.signal);
+        this.dettachInternalAbortSignal = this.attachAbortSignal(this.signal);
         this.promise = this.promise.finally(this.dispose.bind(this));
     }
 
@@ -40,6 +42,7 @@ export class PromiseEntry<T> extends PromiseDefer<T, unknown> {
 
     protected dispose(): void {
         this.dettachAbortSignal?.();
+        this.dettachInternalAbortSignal?.();
         if (!this.abortController.signal.aborted) {
             this.abortController.abort(new EntryAbortedByDisposeException());
         }
