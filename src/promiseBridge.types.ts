@@ -1,10 +1,5 @@
+import { EntryStategy } from './constants/EntryStategy';
 import { PromiseEntryOptions } from './utils/PromiseEntry';
-
-export enum EntryStategy {
-    Normal,
-    Recreate,
-    RejectIfExists,
-}
 
 export interface BaseCreateEntryOptions extends Partial<PromiseEntryOptions> {}
 

@@ -1,5 +1,6 @@
 import { ComponentType, createElement, memo, ReactElement } from 'react';
 import { PromiseBridgeContainer, PromiseBridgeContainerProps } from '../components/PromiseBridgeContainer';
+import { EntryStategy } from '../constants/EntryStategy';
 import { ContainerDestroyedException } from '../exceptions/ContainerDestroyedException';
 import { ContainerNotMountedException } from '../exceptions/ContainerNotMountedException';
 import { EntryExistsException } from '../exceptions/EntryExistsException';
@@ -7,7 +8,6 @@ import { EntryRecreateException } from '../exceptions/EntryRecreateException';
 import { MissingEntryIdException } from '../exceptions/MissingEntryIdException';
 import {
     CreateEntryOptions,
-    EntryStategy,
     NormalStrategyCreateEntryOptions,
     RecreateOrRejectStrategyCreateEntryOptions,
 } from '../promiseBridge.types';
