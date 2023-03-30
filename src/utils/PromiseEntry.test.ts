@@ -47,13 +47,12 @@ describe('PromiseEntry', () => {
     });
 
     it('should throw error when signal was aborted before initialize', () => {
-        try {
-            new PromiseEntry({
-                signal: AbortSignal.abort(),
-            });
-        } catch (error) {
-            expect(error).toBeInstanceOf(EntryAbortedBeforeInitializeException);
-        }
+        expect(
+            () =>
+                new PromiseEntry({
+                    signal: AbortSignal.abort(),
+                }),
+        ).toThrowError(EntryAbortedBeforeInitializeException);
     });
 
     it('should send signal abort after promise fulfilled', async () => {

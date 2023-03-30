@@ -17,3 +17,8 @@ export * from './exceptions/EntryExistsException';
 export * from './exceptions/EntryRecreateException';
 export * from './exceptions/MissingEntryIdException';
 export * from './exceptions/PromiseBridgeException';
+
+export * from './components/PromiseBridgeContainer';
+export * from './components/PromiseContextProvider';
+
+export * from './constants/EntryStategy';
