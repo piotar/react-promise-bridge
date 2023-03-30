@@ -77,7 +77,7 @@ export class PromiseBridge {
         }
     }
 
-    private createEntry<T>(component: ReactElement, options?: CreateEntryOptions): Promise<T> {
+    private async createEntry<T>(component: ReactElement, options?: CreateEntryOptions): Promise<T> {
         const entryOptions: CreateEntryOptions = {
             strategy: EntryStategy.Normal,
             ...options,
