@@ -2,6 +2,10 @@
     "name": "@piotar/react-promise-bridge",
     "version": "0.0.5",
     "description": "A library that allows you to easily manage components that ultimately return a value as a `Promise` in `React`.",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/piotar/react-promise-bridge.git"
+    },
     "keywords": [
         "promsie bridge",
         "react modal",
@@ -14,6 +18,10 @@
     ],
     "author": "Piotr Tarasiuk",
     "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/piotar/react-promise-bridge/issues"
+    },
+    "homepage": "https://github.com/piotar/react-promise-bridge",
     "type": "module",
     "files": [
         "dist"
@@ -39,9 +47,11 @@
         "react": ">=16.4.0"
     },
     "devDependencies": {
+        "@testing-library/react": "^14.0.0",
         "@types/react": "^18.0.29",
         "@vitejs/plugin-react": "^3.1.0",
         "husky": "^8.0.3",
+        "jsdom": "^21.1.1",
         "lint-staged": "^13.2.0",
         "prettier": "^2.8.7",
         "react": "^18.2.0",
