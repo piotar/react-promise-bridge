@@ -10,6 +10,7 @@ import { MissingEntryIdException } from '../exceptions/MissingEntryIdException';
 import { EntryRecreateException } from '../exceptions/EntryRecreateException';
 import { EntryExistsException } from '../exceptions/EntryExistsException';
 import { usePromiseBridge } from '../hooks/usePromiseBridge';
+import { PromiseBridgeException } from '../exceptions/PromiseBridgeException';
 
 const noope = () => void 0;
 
@@ -172,6 +173,15 @@ describe('PromiseBridge', () => {
 
             fireEvent.click(screen.getByRole('button'));
             expect(instance!).rejects.toThrow(Error);
+        });
+
+        it('should throw exception when mount passed component outside invoke function of Promise Bridge', async () => {
+            function MockComponent() {
+                usePromiseBridge();
+                return React.createElement('div');
+            }
+
+            expect(() => render(React.createElement(MockComponent))).toThrow(PromiseBridgeException);
         });
     });
 });

@@ -24,5 +24,8 @@ export default defineConfig((env) => ({
     define: env.command === 'build' ? { 'process.env.NODE_ENV': "'production'" } : undefined,
     test: {
         environment: 'jsdom',
+        coverage: {
+            provider: 'c8',
+        },
     },
 }));
