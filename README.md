@@ -15,18 +15,18 @@ This abstract component is designed for popups, modals, toasts, dynamic messages
 ## Installation
 
 ```sh
-npm i @piotar/react-promise-bridge
+npm install @piotar/react-promise-bridge
 ```
 
 ## Features
 
-- lightweight, no additional dependencies
+- lightweight, **no additional dependencies**
 - multiple instances and mulitple containers
 - no additional properties, based on `context`
-- different types of `Promise` entry creation strategies
-- does not require additional changes to existing components
+- different types of strategies to create a `Promise` entry
+- does not require additional changes to existing components, just use the context of the `Promise Bridge`
 - support `AbortSignal`
-- **works both inside and outside `React` components**
+- **function call to open a bridge, works both inside and outside `React` components**
 
 
 ## How to use
@@ -123,7 +123,7 @@ setTimeout(async () => {
 
 Try it on:
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz_small.svg)](https://stackblitz.com/github/piotar/react-promise-bridge/tree/main/examples/01_basic)
+[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz_small.svg)](https://stackblitz.com/github/piotar/react-promise-bridge/tree/main/examples/01_basic?file=src/App.tsx)
 
 ## Examples
 
