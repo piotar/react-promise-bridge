@@ -8,6 +8,7 @@
     },
     "keywords": [
         "promsie bridge",
+        "react dialog",
         "react modal",
         "react popups",
         "react toastr",
@@ -45,7 +46,7 @@
         "prepublishOnly": "npm run build"
     },
     "peerDependencies": {
-        "react": ">=16.4.0"
+        "react": ">=16.6.0"
     },
     "devDependencies": {
         "@testing-library/react": "14.0.0",

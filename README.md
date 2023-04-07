@@ -6,9 +6,9 @@
 
 A library that allows you to **easily manage components** that ultimately return a value as a `Promise`.
 
-This is a simple wrapper that provided the `context` to solve the `Promise`.
+This is a simple wrapper that provided the `context` to resolve or reject the `Promise`.
 
-This abstract component is designed for popups, modals, toasts, dynamic messages, notifications, etc.
+This abstract component is designed for dialogs, popups, modals, toasts, dynamic messages, notifications, etc.
 
 **It is all up to you**.
 
@@ -28,13 +28,12 @@ npm install @piotar/react-promise-bridge
 - support `AbortSignal`
 - **function call to open a bridge, works both inside and outside `React` components**
 
-
 ## How to use
 
 1. Import and create container with invoke function of `Promise Bridge`
 
-```javascript 
-// ./SystemPromiseBridge.tsx 
+```javascript
+// ./SystemPromiseBridge.tsx
 import { PromiseBridge } from '@piotar/react-promise-bridge';
 
 // the name of the container and function depends on you
@@ -45,21 +44,20 @@ export const [Container, open] = PromiseBridge.create();
 
 ```javascript
 // ./main.tsx
-import React from 'react'
+import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { App } from './App';
 import { Container } from './SystemPromiseBridge';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <App>
-    {/* ... */}
-    <Container/>
-  </App>
+    <App>
+        {/* ... */}
+        <Container />
+    </App>,
 );
 
 // or directly as DOM element
-ReactDOM.createRoot(document.getElementById('modals')).render(<Container/>);
-
+ReactDOM.createRoot(document.getElementById('modals')).render(<Container />);
 ```
 
 3. Use `usePromiseBridge` in component to `resolve` or `reject` `Promise`.
@@ -68,14 +66,28 @@ ReactDOM.createRoot(document.getElementById('modals')).render(<Container/>);
 // ./Confirm.tsx
 import { usePromiseBridge } from '@piotar/react-promise-bridge';
 
-export function Confirm(props: { message: string }): JSX.Element {
-  const { resolve, reject } = usePromiseBridge<string>();
+interface ConfirmProps {
+    header?: string;
+    message: string;
+}
 
-  return <div>
-    <span>{props.message}</span>
-    <button type='button' onClick={() => reject(new Error('custom exception'))}>cancel</button>
-    <button type='button' onClick={() => resolve('some passed data')}>confirm</button>
-  </div>
+export function Confirm({ header, message }: ConfirmProps): JSX.Element {
+    const { resolve, reject } = usePromiseBridge<boolean>();
+
+    return (
+        <dialog open={true}>
+            {header ? <header>{header}</header> : null}
+            <p>{message}</p>
+            <footer>
+                <button type="button" onClick={() => reject(new Error('Canceled'))}>
+                    Cancel
+                </button>
+                <button type="button" onClick={() => resolve(true)}>
+                    Confirm
+                </button>
+            </footer>
+        </dialog>
+    );
 }
 ```
 
@@ -85,25 +97,30 @@ Invoke promise bridge function to open component inside `React` component:
 
 ```javascript
 // ./App.tsx
-import { open } from './SystemPromiseBridge';
+import { Fragment } from 'react';
+import { Container, open } from './SystemPromiseBridge';
 
 export function App({ children }: React.PropsWithChildren<unknown>): JSX.Element {
-  const handleConfirm = async () => {
-    try {
-      const result = await open(<Confirm message='Some custom message' />);
-      console.log('do something', result);
-    } catch (error) {
-      console.warn('closed', error);
-    }
-  };
-  return (
-    <div>
-      <button onClick={handleConfirm}>open confirm</button>
-      {children}
-    </div>
-  )
-}
+    const handleConfirmClick = async () => {
+        try {
+            await open(<Confirm header="Confirmation" message="Some custom message" />);
+            // handle confirm
+            console.log('confirmed');
+        } catch (error) {
+            console.warn(error);
+        }
+    };
 
+    return (
+        <Fragment>
+            <button type="button" onClick={handleConfirmClick}>
+                Open confirm modal
+            </button>
+            {/* ... */}
+            <Container />
+        </Fragment>
+    );
+}
 ```
 
 Invoke promise bridge function to open component outside `React`:
@@ -118,7 +135,7 @@ setTimeout(async () => {
     } catch (error) {
         console.error(error);
     }
-}, 1000)
+}, 1000);
 ```
 
 Try it on:
@@ -127,5 +144,11 @@ Try it on:
 
 ## Examples
 
-
-TBD.
+| Repository example | Open in StackBlitz |
+| --- | --- |
+| [#01 Basic](/examples/01_basic/) | [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz_small.svg)](https://stackblitz.com/github/piotar/react-promise-bridge/tree/main/examples/01_basic?file=src/App.tsx)
+ |
+| [#02 Animation](/examples//02_animation/) | [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz_small.svg)](https://stackblitz.com/github/piotar/react-promise-bridge/tree/main/examples/02_animation?file=src/App.tsx)
+ |
+| [#03 Animation with classes](/examples//03_animation_classname/) | [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz_small.svg)](https://stackblitz.com/github/piotar/react-promise-bridge/tree/main/examples/03_animation_classname?file=src/App.tsx)
+ |
