@@ -2,6 +2,7 @@ export * from './promiseBridge.types';
 export * from './PromiseBridgeContext';
 
 export * from './hooks/usePromiseBridge';
+export * from './hooks/useDeferredPromiseBridge';
 
 export * from './utils/PromiseBridge';
 export * from './utils/PromiseBridgeEntry';
@@ -22,3 +23,4 @@ export * from './components/PromiseBridgeContainer';
 export * from './components/PromiseContextProvider';
 
 export * from './constants/EntryStategy';
+export * from './constants/PromiseState';

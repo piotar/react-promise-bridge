@@ -34,3 +34,29 @@ select {
     width: 100%;
     padding: 7px;
 }
+
+
+dialog[open] {
+    animation: show .3s ease normal;
+}
+
+dialog {
+    display: block;
+    animation: hide .3s ease forwards;
+}
+
+@keyframes show {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes hide {
+    to {
+        opacity: 0;
+    }
+}

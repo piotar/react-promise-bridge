@@ -1,4 +1,4 @@
-import { usePromiseBridge } from '@piotar/react-promise-bridge';
+import { PromiseState, useDeferredPromiseBridge } from '@piotar/react-promise-bridge';
 
 interface ConfirmProps {
     header?: string;
@@ -6,10 +6,10 @@ interface ConfirmProps {
 }
 
 export function Confirm({ header, message }: ConfirmProps): JSX.Element {
-    const { resolve, reject } = usePromiseBridge<boolean>();
+    const { state, resolve, reject, trigger } = useDeferredPromiseBridge<boolean>();
 
     return (
-        <dialog open={true}>
+        <dialog className={state === PromiseState.Initial ? 'show' : 'hide'} onAnimationEnd={trigger}>
             {header ? <header>{header}</header> : null}
             <p>{message}</p>
             <footer>
