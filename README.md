@@ -146,9 +146,6 @@ Try it on:
 
 | Repository example | Open in StackBlitz |
 | --- | --- |
-| [#01 Basic](/examples/01_basic/) | [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz_small.svg)](https://stackblitz.com/github/piotar/react-promise-bridge/tree/main/examples/01_basic?file=src/App.tsx)
- |
-| [#02 Animation](/examples//02_animation/) | [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz_small.svg)](https://stackblitz.com/github/piotar/react-promise-bridge/tree/main/examples/02_animation?file=src/App.tsx)
- |
-| [#03 Animation with classes](/examples//03_animation_classname/) | [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz_small.svg)](https://stackblitz.com/github/piotar/react-promise-bridge/tree/main/examples/03_animation_classname?file=src/App.tsx)
- |
+| [#01 Basic](/examples/01_basic/) | [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz_small.svg)](https://stackblitz.com/github/piotar/react-promise-bridge/tree/main/examples/01_basic?file=src/App.tsx) |
+| [#02 Animation](/examples//02_animation/) | [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz_small.svg)](https://stackblitz.com/github/piotar/react-promise-bridge/tree/main/examples/02_animation?file=src/App.tsx) |
+| [#03 Animation with classes](/examples//03_animation_classname/) | [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz_small.svg)](https://stackblitz.com/github/piotar/react-promise-bridge/tree/main/examples/03_animation_classname?file=src/App.tsx) |
