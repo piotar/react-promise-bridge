@@ -1,6 +1,6 @@
 {
     "name": "@piotar/react-promise-bridge",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "A library that allows you to easily manage components that ultimately return a value as a `Promise` in `React`.",
     "repository": {
         "type": "git",
