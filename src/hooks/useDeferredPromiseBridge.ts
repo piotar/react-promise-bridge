@@ -16,16 +16,16 @@ export function useDeferredPromiseBridge<T, R = any>(): DeferrefPromiseBridge<T,
     const [[state, defer], setState] = useState<DeferredRecord>(initialState);
     const bridge = usePromiseBridge<T, R>();
 
-    const resolve = useCallback(
-        (data: T): void =>
+    const resolve = useCallback<(typeof bridge)['resolve']>(
+        (data) =>
             setState((prev) =>
                 prev[0] === PromiseState.Initial ? [PromiseState.Pending, bridge.resolve.bind(null, data)] : prev,
             ),
         [bridge.resolve],
     );
 
-    const reject = useCallback(
-        (reason: R): void =>
+    const reject = useCallback<(typeof bridge)['reject']>(
+        (reason) =>
             setState((prev) =>
                 prev[0] === PromiseState.Initial ? [PromiseState.Pending, bridge.reject.bind(null, reason)] : prev,
             ),
@@ -39,7 +39,7 @@ export function useDeferredPromiseBridge<T, R = any>(): DeferrefPromiseBridge<T,
         }
     }, [defer]);
 
-    return useMemo(
+    return useMemo<DeferrefPromiseBridge<T, R>>(
         () => ({
             state,
             signal: bridge.signal,

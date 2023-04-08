@@ -43,7 +43,8 @@
         "coverage": "vitest run --coverage",
         "prettier": "prettier --write --ignore-unknown ./src/**/*.{ts,tsx,json}",
         "prepare": "husky install",
-        "prepublishOnly": "npm run build"
+        "prepublishOnly": "npm run build",
+        "type-check": "tsc --noEmit"
     },
     "peerDependencies": {
         "react": ">=16.6.0"
