@@ -3,6 +3,7 @@ export * from './PromiseBridgeContext';
 
 export * from './hooks/usePromiseBridge';
 export * from './hooks/useDeferredPromiseBridge';
+export * from './hooks/useDisposePromiseBridge';
 
 export * from './utils/PromiseBridge';
 export * from './utils/PromiseBridgeEntry';
