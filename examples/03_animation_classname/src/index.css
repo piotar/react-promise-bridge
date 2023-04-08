@@ -37,12 +37,12 @@ select {
 
 dialog.show {
     display: block;
-    animation: show .3s ease;
+    animation: show 0.3s ease;
 }
 
 dialog.hide {
     display: block;
-    animation: hide .3s ease forwards;
+    animation: hide 0.3s ease forwards;
 }
 
 @keyframes show {

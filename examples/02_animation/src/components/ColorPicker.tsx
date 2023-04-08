@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { PromiseState, useDeferredPromiseBridge } from '@piotar/react-promise-bridge';
 
-interface ColorPIckerProps {
+interface ColorPickerProps {
     value?: string;
 }
 
 const colors = ['red', 'tomato', 'green', 'yellow', 'pink'];
 
-export function ColorPicker({ value }: ColorPIckerProps): JSX.Element {
+export function ColorPicker({ value }: ColorPickerProps): JSX.Element {
     const [color, setColor] = useState(value ?? colors[0]);
     const { state, resolve, reject, trigger } = useDeferredPromiseBridge<string>();
 

@@ -1,0 +1,32 @@
+:root {
+    font-family: Helvetica, Arial, sans-serif;
+    color-scheme: light dark;
+}
+
+dialog {
+    display: flex;
+    position: static;
+    min-width: 400px;
+    justify-content: space-between;
+}
+
+dialog footer {
+    display: flex;
+    gap: 7px;
+    align-items: flex-start;
+}
+
+article nav {
+    display: flex;
+    gap: 7px;
+}
+
+button {
+    cursor: pointer;
+    padding: 7px 14px;
+}
+
+select {
+    width: 100%;
+    padding: 7px;
+}

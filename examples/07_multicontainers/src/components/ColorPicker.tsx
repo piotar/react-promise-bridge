@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { PromiseState, useDeferredPromiseBridge } from '@piotar/react-promise-bridge';
+import { usePromiseBridge } from '@piotar/react-promise-bridge';
 
 interface ColorPickerProps {
     value?: string;
@@ -9,12 +9,12 @@ const colors = ['red', 'tomato', 'green', 'yellow', 'pink'];
 
 export function ColorPicker({ value }: ColorPickerProps): JSX.Element {
     const [color, setColor] = useState(value ?? colors[0]);
-    const { state, resolve, reject, trigger } = useDeferredPromiseBridge<string>();
+    const { resolve, reject } = usePromiseBridge<string>();
 
     return (
-        <dialog className={state === PromiseState.Initial ? 'show' : 'hide'} onAnimationEnd={trigger}>
-            <header>Choose color</header>
-            <p>
+        <dialog>
+            <section>
+                <label>Choose color</label>
                 <select onChange={(e) => setColor(e.target.value)} defaultValue={color}>
                     {colors.map((color) => (
                         <option key={color} value={color}>
@@ -22,7 +22,8 @@ export function ColorPicker({ value }: ColorPickerProps): JSX.Element {
                         </option>
                     ))}
                 </select>
-            </p>
+            </section>
+
             <footer>
                 <button type="button" onClick={() => reject(new Error('Canceled'))}>
                     Cancel

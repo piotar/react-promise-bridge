@@ -97,8 +97,7 @@ Invoke promise bridge function to open component inside `React` component:
 
 ```javascript
 // ./App.tsx
-import { Fragment } from 'react';
-import { Container, open } from './SystemPromiseBridge';
+import { open } from './SystemPromiseBridge';
 
 export function App({ children }: React.PropsWithChildren<unknown>): JSX.Element {
     const handleConfirmClick = async () => {
@@ -112,13 +111,12 @@ export function App({ children }: React.PropsWithChildren<unknown>): JSX.Element
     };
 
     return (
-        <Fragment>
+        <div>
             <button type="button" onClick={handleConfirmClick}>
                 Open confirm modal
             </button>
             {/* ... */}
-            <Container />
-        </Fragment>
+        </div>
     );
 }
 ```
@@ -149,3 +147,7 @@ Try it on:
 | [#01 Basic](/examples/01_basic/) | [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz_small.svg)](https://stackblitz.com/github/piotar/react-promise-bridge/tree/main/examples/01_basic?file=src/App.tsx) |
 | [#02 Animation](/examples//02_animation/) | [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz_small.svg)](https://stackblitz.com/github/piotar/react-promise-bridge/tree/main/examples/02_animation?file=src/App.tsx) |
 | [#03 Animation with classes](/examples//03_animation_classname/) | [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz_small.svg)](https://stackblitz.com/github/piotar/react-promise-bridge/tree/main/examples/03_animation_classname?file=src/App.tsx) |
+| [#04 Abort controller](/examples//04_abort_controller/) | [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz_small.svg)](https://stackblitz.com/github/piotar/react-promise-bridge/tree/main/examples/04_abort_controller?file=src/App.tsx) |
+| [#05 Entry with strategy recreate](/examples/05_strategy_recreate/) | [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz_small.svg)](https://stackblitz.com/github/piotar/react-promise-bridge/tree/main/examples/05_strategy_recreate?file=src/App.tsx) |
+| [#06 Entry with strategy reject if exists](/examples/06_strategy_reject_if_exists/) | [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz_small.svg)](https://stackblitz.com/github/piotar/react-promise-bridge/tree/main/examples/06_strategy_reject_if_exists?file=src/App.tsx) |
+| [#07 Multicontainer](/examples/07_multicontainers/) | [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz_small.svg)](https://stackblitz.com/github/piotar/react-promise-bridge/tree/main/examples/07_multicontainers?file=src/App.tsx) |
