@@ -2,7 +2,7 @@ import { AbortSignalStrategy } from '../constants/AbortSignalStrategy';
 import { ExternalAbortSignalException } from '../exceptions/ExternalAbortSignalException';
 
 export interface ComposeAbortControllerOptions {
-    strategy: AbortSignalStrategy;
+    strategy?: AbortSignalStrategy;
 }
 
 export class ComposeAbortController extends AbortController {
@@ -23,19 +23,9 @@ export class ComposeAbortController extends AbortController {
     }
 
     protected handleExternalAbortSignal(): void {
-        if (this.signal.aborted) {
-            return void 0;
-        }
-        const reason = this.processExternalAbortSignals();
-        if (reason) {
-            this.abort(reason);
-        }
-    }
-
-    protected processExternalAbortSignals(): Error | undefined {
         const aborted = this.signals.filter((signal) => signal.aborted);
         if (this.hasAbortedSignal(aborted)) {
-            return new ExternalAbortSignalException(aborted.map((signal) => signal.reason));
+            this.abort(new ExternalAbortSignalException(aborted.map((signal) => signal.reason)));
         }
     }
 
