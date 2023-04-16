@@ -150,6 +150,8 @@ The main hook for resolving or rejecting `Promise`.
 const { resolve, reject, signal } = usePromiseBridge<ResolveType, RejectType>();
 ```
 
+[Example in StackBlitz](https://stackblitz.com/github/piotar/react-promise-bridge/tree/main/examples/01_basic?file=src/components/ColorPicker.tsx:L12)
+
 ### `useDeferredPromiseBridge`
 
 A hook based on `usePromiseBridge`. 
@@ -162,6 +164,8 @@ The hook allows you to defer the fulfilled `Promise` by calling the trigger func
 const { resolve, reject, signal, state, trigger } = useDeferredPromiseBridge<ResolveType, RejectType>();
 ```
 
+[Example in StackBlitz](https://stackblitz.com/github/piotar/react-promise-bridge/tree/main/examples/02_animation?file=src/components/ColorPicker.tsx:L12)
+
 ### `useDisposePromiseBridge`
 
 The helper hook is designed to help create an abort controller to reject `Promise` after the trigger component is destroyed.
@@ -169,6 +173,8 @@ The helper hook is designed to help create an abort controller to reject `Promis
 ```javascript
 const abortController = useDisposePromiseBridge(signals);
 ```
+
+[Example in StackBlitz](https://stackblitz.com/github/piotar/react-promise-bridge/tree/main/examples/08_destroy_component?file=src/components/SomeChild.tsx:L8)
 
 ## Examples
 
@@ -181,5 +187,4 @@ const abortController = useDisposePromiseBridge(signals);
 | [#05 Entry with strategy recreate](/examples/05_strategy_recreate/) | [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz_small.svg)](https://stackblitz.com/github/piotar/react-promise-bridge/tree/main/examples/05_strategy_recreate?file=src/App.tsx) |
 | [#06 Entry with strategy reject if exists](/examples/06_strategy_reject_if_exists/) | [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz_small.svg)](https://stackblitz.com/github/piotar/react-promise-bridge/tree/main/examples/06_strategy_reject_if_exists?file=src/App.tsx) |
 | [#07 Multicontainer](/examples/07_multicontainers/) | [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz_small.svg)](https://stackblitz.com/github/piotar/react-promise-bridge/tree/main/examples/07_multicontainers?file=src/App.tsx) |
-| [#08 Destroy `Bridge` after destroy trigger component](/examples/08_destroy_component/) | [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz_small.svg)](https://stackblitz.com/github/piotar/react-promise-bridge/tree/main/examples/08_destroy_component?file=src/App.tsx) |
 | [#08 Destroy `Bridge` after destroy trigger component](/examples/08_destroy_component/) | [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz_small.svg)](https://stackblitz.com/github/piotar/react-promise-bridge/tree/main/examples/08_destroy_component?file=src/App.tsx) |
