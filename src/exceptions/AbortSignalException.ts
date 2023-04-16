@@ -1,6 +1,6 @@
-export class PromiseBridgeException extends Error {
+export class AbortSignalException extends Error {
     constructor(message?: string, options?: ErrorOptions) {
         super(message, options);
-        this.name = 'PromiseBridgeException';
+        this.name = 'AbortSignalException';
     }
 }

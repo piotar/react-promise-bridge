@@ -32,10 +32,10 @@ export class PromiseEntry<T> extends PromiseDefer<T, unknown> {
             return undefined;
         }
         if (signal.aborted) {
-            throw new EntryAbortedBeforeInitializeException();
+            throw new EntryAbortedBeforeInitializeException(signal.reason);
         }
 
-        const callback = this.reject.bind(this, new EntryAbortedBySignalException());
+        const callback = () => this.reject(new EntryAbortedBySignalException(signal.reason));
         signal.addEventListener('abort', callback, { once: true });
         return () => signal.removeEventListener('abort', callback);
     }
