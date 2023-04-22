@@ -1,5 +1,5 @@
 {
-    "name": "02_animation",
+    "name": "09_mui",
     "private": true,
     "version": "0.0.0",
     "type": "module",
@@ -9,6 +9,11 @@
         "preview": "vite preview"
     },
     "dependencies": {
+        "@emotion/react": "^11.10.6",
+        "@emotion/styled": "^11.10.6",
+        "@fontsource/roboto": "^4.5.8",
+        "@mui/icons-material": "^5.11.16",
+        "@mui/material": "^5.12.1",
         "@piotar/react-promise-bridge": "latest",
         "react": "^18.2.0",
         "react-dom": "^18.2.0"
