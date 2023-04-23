@@ -1,6 +1,7 @@
 import { EntryAbortedBeforeInitializeException } from '../exceptions/EntryAbortedBeforeInitializeException';
 import { EntryAbortedByDisposeException } from '../exceptions/EntryAbortedByDisposeException';
 import { EntryAbortedBySignalException } from '../exceptions/EntryAbortedBySignalException';
+import { ComposeAbortController } from './ComposeAbortController';
 import { PromiseDefer } from './PromiseDefer';
 import { UniqueId } from './UniqueId';
 
@@ -12,38 +13,32 @@ export class PromiseEntry<T> extends PromiseDefer<T, unknown> {
     protected static readonly counter = new UniqueId();
 
     public readonly entryId = PromiseEntry.counter.generate();
-    protected readonly abortController: AbortController = new AbortController();
-    private readonly dettachAbortSignal?: () => void;
-    private readonly dettachInternalAbortSignal?: () => void;
+    protected readonly abortController: ComposeAbortController;
 
     constructor(options?: PromiseEntryOptions) {
         super();
-        this.dettachAbortSignal = this.attachAbortSignal(options?.signal);
-        this.dettachInternalAbortSignal = this.attachAbortSignal(this.signal);
-        this.promise = this.promise.finally(this.dispose.bind(this));
+        this.abortController = new ComposeAbortController(options?.signal ? [options.signal] : []);
+
+        if (this.signal.aborted) {
+            this.reject(new EntryAbortedBeforeInitializeException(this.signal.reason));
+        } else {
+            this.handleAbortSignal = this.handleAbortSignal.bind(this);
+            this.signal.addEventListener('abort', this.handleAbortSignal, { once: true });
+            this.promise = this.promise.finally(this.dispose.bind(this));
+        }
     }
 
     public get signal(): AbortSignal {
         return this.abortController.signal;
     }
 
-    private attachAbortSignal(signal: AbortSignal | undefined): (() => void) | undefined {
-        if (!signal) {
-            return undefined;
-        }
-        if (signal.aborted) {
-            throw new EntryAbortedBeforeInitializeException(signal.reason);
-        }
-
-        const callback = () => this.reject(new EntryAbortedBySignalException(signal.reason));
-        signal.addEventListener('abort', callback, { once: true });
-        return () => signal.removeEventListener('abort', callback);
+    private handleAbortSignal(): void {
+        this.reject(new EntryAbortedBySignalException(this.signal.reason));
     }
 
     protected dispose(): void {
-        this.dettachAbortSignal?.();
-        this.dettachInternalAbortSignal?.();
-        if (!this.abortController.signal.aborted) {
+        this.signal.removeEventListener('abort', this.handleAbortSignal);
+        if (!this.signal.aborted) {
             this.abortController.abort(new EntryAbortedByDisposeException());
         }
     }

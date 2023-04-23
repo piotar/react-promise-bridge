@@ -46,13 +46,11 @@ describe('PromiseEntry', () => {
         await expect(instance.promise).rejects.toBeInstanceOf(EntryAbortedBySignalException);
     });
 
-    it('should throw error when signal was aborted before initialize', () => {
-        expect(
-            () =>
-                new PromiseEntry({
-                    signal: AbortSignal.abort(),
-                }),
-        ).toThrowError(EntryAbortedBeforeInitializeException);
+    it('should throw error when signal was aborted before initialize', async () => {
+        const instance = new PromiseEntry({
+            signal: AbortSignal.abort(),
+        });
+        await expect(instance.promise).rejects.toBeInstanceOf(EntryAbortedBeforeInitializeException);
     });
 
     it('should send signal abort after promise fulfilled', async () => {
