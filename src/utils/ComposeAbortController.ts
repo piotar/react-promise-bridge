@@ -8,18 +8,20 @@ export interface ComposeAbortControllerOptions {
 export class ComposeAbortController extends AbortController {
     protected readonly options: ComposeAbortControllerOptions;
 
-    constructor(protected signals: AbortSignal[] = [], options?: ComposeAbortControllerOptions) {
+    constructor(protected readonly signals: AbortSignal[] = [], options?: ComposeAbortControllerOptions) {
         super();
         this.options = {
             strategy: AbortSignalStrategy.Any,
             ...options,
         };
 
-        this.handleExternalAbortSignal = this.handleExternalAbortSignal.bind(this);
-        this.signals.forEach((signal) =>
-            signal.addEventListener('abort', this.handleExternalAbortSignal, { once: true }),
-        );
-        this.handleExternalAbortSignal();
+        if (this.signals.length) {
+            this.handleExternalAbortSignal = this.handleExternalAbortSignal.bind(this);
+            this.signals.forEach((signal) =>
+                signal.addEventListener('abort', this.handleExternalAbortSignal, { once: true }),
+            );
+            this.handleExternalAbortSignal();
+        }
     }
 
     protected handleExternalAbortSignal(): void {

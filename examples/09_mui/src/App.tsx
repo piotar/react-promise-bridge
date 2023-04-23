@@ -6,8 +6,6 @@ import { alert } from './components/SystemAlert';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
-
-
 export function App(): JSX.Element {
     const [style, setStyle] = useState<CSSProperties | undefined>();
 
