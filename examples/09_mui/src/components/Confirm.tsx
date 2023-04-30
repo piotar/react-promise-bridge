@@ -18,18 +18,10 @@ export function Confirm({ header, message }: ConfirmProps): JSX.Element {
     const handleConfirm = () => resolve();
 
     return (
-        <Dialog
-            open={state === PromiseState.Initial}
-            TransitionProps={{ onExited: trigger }}
-            onClose={handleClose}
-        >
-            <DialogTitle>
-                {header ? <header>{header}</header> : null}
-            </DialogTitle>
+        <Dialog open={state === PromiseState.Initial} TransitionProps={{ onExited: trigger }} onClose={handleClose}>
+            <DialogTitle>{header ? <header>{header}</header> : null}</DialogTitle>
             <DialogContent>
-                <DialogContentText>
-                    {message}
-                </DialogContentText>
+                <DialogContentText>{message}</DialogContentText>
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleClose}>Disagree</Button>

@@ -1,14 +1,9 @@
 import { useState } from 'react';
 import { PromiseState, useDeferredPromiseBridge } from '@piotar/react-promise-bridge';
 import { open } from './SystemPromiseBridge';
-import Button from '@mui/material/Button';
-import DialogTitle from '@mui/material/DialogTitle';
-import Dialog from '@mui/material/Dialog';
-import DialogContent from '@mui/material/DialogContent';
-import DialogActions from '@mui/material/DialogActions';
-import RadioGroup from '@mui/material/RadioGroup';
-import Radio from '@mui/material/Radio';
-import FormControlLabel from '@mui/material/FormControlLabel';
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import Form from 'react-bootstrap/Form';
 
 interface ColorPickerProps {
     value?: string;
@@ -22,28 +17,33 @@ export function ColorPicker({ value }: ColorPickerProps): JSX.Element {
     const handleClose = () => reject();
 
     return (
-        <Dialog open={state === PromiseState.Initial} onClose={handleClose} TransitionProps={{ onExited: trigger }}>
-            <DialogTitle>Choose color</DialogTitle>
-            <DialogContent>
-                <RadioGroup value={color} onChange={(event) => setColor(event.target.value)}>
+        <Modal show={state === PromiseState.Initial} onHide={handleClose} onExited={trigger}>
+            <Modal.Header>
+                <Modal.Title>Choose color</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <Form>
                     {colors.map((option) => (
-                        <FormControlLabel
+                        <Form.Check
+                            type="radio"
+                            checked={color === option}
                             value={option}
+                            id={option}
                             key={option}
-                            control={<Radio />}
                             label={option}
                             style={{ color: option }}
+                            onChange={(event) => setColor(event.target.value)}
                         />
                     ))}
-                </RadioGroup>
-            </DialogContent>
-            <DialogActions>
-                <Button autoFocus onClick={handleClose}>
+                </Form>
+            </Modal.Body>
+            <Modal.Footer>
+                <Button autoFocus onClick={handleClose} variant="secondary">
                     Cancel
                 </Button>
                 <Button onClick={() => resolve(color)}>Ok</Button>
-            </DialogActions>
-        </Dialog>
+            </Modal.Footer>
+        </Modal>
     );
 }
 

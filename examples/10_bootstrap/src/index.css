@@ -1,0 +1,9 @@
+:root {
+    font-family: Helvetica, Arial, sans-serif;
+    color-scheme: light dark;
+}
+
+body {
+    padding: 7px;
+    background-color: azure;
+}

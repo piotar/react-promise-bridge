@@ -3,8 +3,7 @@ import { confirm } from './components/Confirm';
 import { Container } from './components/SystemPromiseBridge';
 import { colorPicker } from './components/ColorPicker';
 import { alert } from './components/SystemAlert';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
+import Button from 'react-bootstrap/Button';
 
 export function App(): JSX.Element {
     const [style, setStyle] = useState<CSSProperties | undefined>();
@@ -12,10 +11,13 @@ export function App(): JSX.Element {
     return (
         <Fragment>
             <article style={style}>
-                <Typography variant="h3">Example of Promise Bridge</Typography>
-                <Typography variant="h6">Alerts:</Typography>
+                <h3>Example of Promise Bridge</h3>
+                <h6>Alerts:</h6>
                 <nav>
-                    <Button type="button" onClick={() => alert('This is a success alert', 'Success').then(console.log)}>
+                    <Button
+                        type="button"
+                        onClick={() => alert('This is a success alert', 'Success', 'success').then(console.log)}
+                    >
                         Open success alert
                     </Button>
                     <Button
@@ -32,13 +34,13 @@ export function App(): JSX.Element {
                     </Button>
                     <Button
                         type="button"
-                        onClick={() => alert('This is a error alert', 'Error', 'error').then(console.log)}
+                        onClick={() => alert('This is a error alert', 'Error', 'danger').then(console.log)}
                     >
                         Open error alert
                     </Button>
                 </nav>
 
-                <Typography variant="h6">Dialogs:</Typography>
+                <h6>Dialogs:</h6>
                 <nav>
                     <Button
                         type="button"

@@ -11,7 +11,7 @@ export function App(): JSX.Element {
                 <h1>Example of Promise Bridge</h1>
                 <p>Lorem ipsum dolor sit...</p>
                 <nav>
-                    <button type="button" onClick={() => setIsSomeChildVisible(prev => !prev)}>
+                    <button type="button" onClick={() => setIsSomeChildVisible((prev) => !prev)}>
                         Toggle visible child component
                     </button>
                 </nav>

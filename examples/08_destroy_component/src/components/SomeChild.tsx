@@ -1,7 +1,7 @@
-import { CSSProperties, useState } from "react";
-import { useDisposePromiseBridge } from "@piotar/react-promise-bridge";
-import { ColorPicker } from "./ColorPicker";
-import { open } from "./SystemPromiseBridge";
+import { CSSProperties, useState } from 'react';
+import { useDisposePromiseBridge } from '@piotar/react-promise-bridge';
+import { ColorPicker } from './ColorPicker';
+import { open } from './SystemPromiseBridge';
 
 export function SomeChild(): JSX.Element {
     const [style, setStyle] = useState<CSSProperties | undefined>();
@@ -17,12 +17,14 @@ export function SomeChild(): JSX.Element {
         }
     };
 
-    return <article style={style}>
-        <nav>
-            <button type="button" onClick={handleColorPickerClick}>
-                Open color picker
-            </button>
-        </nav>
-        <p>Lorem ipsum dolor sit...</p>
-    </article>;
+    return (
+        <article style={style}>
+            <nav>
+                <button type="button" onClick={handleColorPickerClick}>
+                    Open color picker
+                </button>
+            </nav>
+            <p>Lorem ipsum dolor sit...</p>
+        </article>
+    );
 }
