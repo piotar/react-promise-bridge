@@ -16,10 +16,10 @@ jobs:
                   node-version: 18
                   cache: "npm"
             - run: npm ci
-            - run: npx vitest run --coverage.enabled --coverage.provider=c8 --coverage.reporter=json-summary
-            - run: npx coverage-badges-cli --output ./badges/coverage.svg
+            - run: npx vitest run --coverage.enabled --coverage.provider=c8 --coverage.reporter=json-summary --coverage.reporter=json --coverage.reporter=html
+            - run: npx coverage-badges-cli --output ./coverage/badges.svg
             - name: Deploy
               uses: peaceiris/actions-gh-pages@v3
               with:
                   github_token: ${{ secrets.GITHUB_TOKEN }}
-                  publish_dir: ./badges
+                  publish_dir: ./coverage
