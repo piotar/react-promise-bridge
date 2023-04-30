@@ -1,4 +1,4 @@
-import { PropsWithChildren, ComponentType, createElement, useCallback, useMemo, useState } from 'react';
+import { createElement, useCallback, useMemo, useState } from 'react';
 import { usePromiseBridge } from './usePromiseBridge';
 import { PromiseContextType } from '../PromiseBridgeContext';
 import { PromiseState } from '../constants/PromiseState';
@@ -7,7 +7,7 @@ import { PromiseContextProvider } from '../components/PromiseContextProvider';
 export interface DeferredPromiseBridge<T, R> extends PromiseContextType<T, R> {
     state: PromiseState;
     trigger(): void;
-    Provider: ComponentType;
+    Provider: typeof PromiseContextProvider;
 }
 
 type DeferredRecord = [PromiseState, Function?];
@@ -41,8 +41,8 @@ export function useDeferredPromiseBridge<T, R = any>(): DeferredPromiseBridge<T,
         }
     }, [defer]);
 
-    const Provider = useCallback(
-        ({ children }: PropsWithChildren): JSX.Element =>
+    const Provider = useCallback<typeof PromiseContextProvider>(
+        ({ children }) =>
             createElement(
                 PromiseContextProvider,
                 {
@@ -64,6 +64,6 @@ export function useDeferredPromiseBridge<T, R = any>(): DeferredPromiseBridge<T,
             trigger,
             Provider,
         }),
-        [state, bridge.signal, resolve, reject, trigger],
+        [state, bridge.signal, resolve, reject, trigger, Provider],
     );
 }
