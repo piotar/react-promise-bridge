@@ -1,18 +1,20 @@
-import { useCallback, useMemo, useState } from 'react';
+import { PropsWithChildren, ComponentType, createElement, useCallback, useMemo, useState } from 'react';
 import { usePromiseBridge } from './usePromiseBridge';
 import { PromiseContextType } from '../PromiseBridgeContext';
 import { PromiseState } from '../constants/PromiseState';
+import { PromiseContextProvider } from '../components/PromiseContextProvider';
 
-export interface DeferrefPromiseBridge<T, R> extends PromiseContextType<T, R> {
+export interface DeferredPromiseBridge<T, R> extends PromiseContextType<T, R> {
     state: PromiseState;
     trigger(): void;
+    Provider: ComponentType;
 }
 
 type DeferredRecord = [PromiseState, Function?];
 
 const initialState: DeferredRecord = [PromiseState.Initial];
 
-export function useDeferredPromiseBridge<T, R = any>(): DeferrefPromiseBridge<T, R> {
+export function useDeferredPromiseBridge<T, R = any>(): DeferredPromiseBridge<T, R> {
     const [[state, defer], setState] = useState<DeferredRecord>(initialState);
     const bridge = usePromiseBridge<T, R>();
 
@@ -39,13 +41,28 @@ export function useDeferredPromiseBridge<T, R = any>(): DeferrefPromiseBridge<T,
         }
     }, [defer]);
 
-    return useMemo<DeferrefPromiseBridge<T, R>>(
+    const Provider = useCallback(
+        ({ children }: PropsWithChildren): JSX.Element =>
+            createElement(
+                PromiseContextProvider,
+                {
+                    reject,
+                    resolve,
+                    signal: bridge.signal,
+                },
+                children,
+            ),
+        [reject, resolve, bridge.signal],
+    );
+
+    return useMemo<DeferredPromiseBridge<T, R>>(
         () => ({
             state,
             signal: bridge.signal,
             resolve,
             reject,
             trigger,
+            Provider,
         }),
         [state, bridge.signal, resolve, reject, trigger],
     );

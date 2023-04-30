@@ -161,7 +161,14 @@ The hook is designed to manage animation.
 The hook allows you to defer the fulfilled `Promise` by calling the trigger function.
 
 ```javascript
-const { resolve, reject, signal, state, trigger } = useDeferredPromiseBridge<ResolveType, RejectType>();
+const {
+    resolve,
+    reject,
+    signal,
+    state,
+    trigger,
+    Provider,
+} = useDeferredPromiseBridge<ResolveType, RejectType>();
 ```
 
 [Example in StackBlitz](https://stackblitz.com/github/piotar/react-promise-bridge/tree/main/examples/02_animation?file=src/components/ColorPicker.tsx:L12)
