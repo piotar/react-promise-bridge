@@ -1,4 +1,4 @@
-import { createElement, useCallback, useMemo, useState } from 'react';
+import { createElement, useCallback, useMemo, useRef, useState } from 'react';
 import { usePromiseBridge } from './usePromiseBridge';
 import { PromiseContextType } from '../PromiseBridgeContext';
 import { PromiseState } from '../constants/PromiseState';
@@ -15,8 +15,10 @@ type DeferredRecord = [PromiseState, Function?];
 const initialState: DeferredRecord = [PromiseState.Initial];
 
 export function useDeferredPromiseBridge<T, R = any>(): DeferredPromiseBridge<T, R> {
-    const [[state, defer], setState] = useState<DeferredRecord>(initialState);
     const bridge = usePromiseBridge<T, R>();
+    const [state, setState] = useState<DeferredRecord>(initialState);
+    const stateRef = useRef(state);
+    stateRef.current = state;
 
     const resolve = useCallback<(typeof bridge)['resolve']>(
         (data) =>
@@ -35,11 +37,12 @@ export function useDeferredPromiseBridge<T, R = any>(): DeferredPromiseBridge<T,
     );
 
     const trigger = useCallback(() => {
+        const [, defer] = stateRef.current;
         if (defer) {
             defer();
             setState([PromiseState.Settled]);
         }
-    }, [defer]);
+    }, [stateRef]);
 
     const Provider = useCallback<typeof PromiseContextProvider>(
         ({ children }) =>
@@ -57,7 +60,7 @@ export function useDeferredPromiseBridge<T, R = any>(): DeferredPromiseBridge<T,
 
     return useMemo<DeferredPromiseBridge<T, R>>(
         () => ({
-            state,
+            state: state[0],
             signal: bridge.signal,
             resolve,
             reject,

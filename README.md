@@ -23,6 +23,8 @@ npm install @piotar/react-promise-bridge
 
 - lightweight, **no additional dependencies**
 - multiple instances and mulitple containers
+- nested containers and nested entries
+- containers can be placed **anywhere** in other application contexts
 - no additional properties, based on `context`
 - different types of strategies to create a `Promise` entry
 - does not require additional changes to existing components, just use the context of the `Promise Bridge`
@@ -159,7 +161,7 @@ A hook based on `usePromiseBridge`.
 
 The hook is designed to manage animation.
 
-The hook allows you to defer the fulfilled `Promise` by calling the trigger function.
+The hook allows you to defer the fulfilled `Promise` and release it by calling a `trigger` function.
 
 ```javascript
 const {
