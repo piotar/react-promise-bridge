@@ -1,4 +1,4 @@
-import { createElement, useCallback, useMemo, useRef, useState } from 'react';
+import { createElement, useMemo, useRef, useState } from 'react';
 import { usePromiseBridge } from './usePromiseBridge';
 import { PromiseContextType } from '../PromiseBridgeContext';
 import { PromiseState } from '../constants/PromiseState';
@@ -20,53 +20,34 @@ export function useDeferredPromiseBridge<T, R = any>(): DeferredPromiseBridge<T,
     const stateRef = useRef(state);
     stateRef.current = state;
 
-    const resolve = useCallback<(typeof bridge)['resolve']>(
-        (data) =>
-            setState((prev) =>
-                prev[0] === PromiseState.Initial ? [PromiseState.Pending, bridge.resolve.bind(null, data)] : prev,
-            ),
-        [bridge.resolve],
-    );
-
-    const reject = useCallback<(typeof bridge)['reject']>(
-        (reason) =>
-            setState((prev) =>
-                prev[0] === PromiseState.Initial ? [PromiseState.Pending, bridge.reject.bind(null, reason)] : prev,
-            ),
-        [bridge.reject],
-    );
-
-    const trigger = useCallback(() => {
-        const [, defer] = stateRef.current;
-        if (defer) {
-            defer();
-            setState([PromiseState.Settled]);
-        }
-    }, [stateRef]);
-
-    const Provider = useCallback<typeof PromiseContextProvider>(
-        ({ children }) =>
-            createElement(
-                PromiseContextProvider,
-                {
-                    reject,
-                    resolve,
-                    signal: bridge.signal,
-                },
-                children,
-            ),
-        [reject, resolve, bridge.signal],
+    const api = useMemo<Omit<DeferredPromiseBridge<T, R>, 'state' | 'Provider'>>(
+        () => ({
+            signal: bridge.signal,
+            resolve: (data) =>
+                setState((prev) =>
+                    prev[0] === PromiseState.Initial ? [PromiseState.Pending, bridge.resolve.bind(null, data)] : prev,
+                ),
+            reject: (reason) =>
+                setState((prev) =>
+                    prev[0] === PromiseState.Initial ? [PromiseState.Pending, bridge.reject.bind(null, reason)] : prev,
+                ),
+            trigger: () => {
+                const [, defer] = stateRef.current;
+                if (defer) {
+                    defer();
+                    setState([PromiseState.Settled]);
+                }
+            },
+        }),
+        [bridge, stateRef],
     );
 
     return useMemo<DeferredPromiseBridge<T, R>>(
         () => ({
+            ...api,
             state: state[0],
-            signal: bridge.signal,
-            resolve,
-            reject,
-            trigger,
-            Provider,
+            Provider: ({ children }) => createElement(PromiseContextProvider, api, children),
         }),
-        [state, bridge.signal, resolve, reject, trigger, Provider],
+        [state, api],
     );
 }
