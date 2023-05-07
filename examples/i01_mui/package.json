@@ -7,16 +7,16 @@
         "dev": "react-scripts start"
     },
     "dependencies": {
-        "@emotion/react": "^11.10.6",
-        "@emotion/styled": "^11.10.6",
-        "@mui/material": "^5.12.2",
+        "@emotion/react": "^11.11.0",
+        "@emotion/styled": "^11.11.0",
+        "@mui/material": "^5.12.3",
         "@piotar/react-promise-bridge": "latest",
         "react": "^18.2.0",
         "react-dom": "^18.2.0"
     },
     "devDependencies": {
-        "@types/react": "^18.2.0",
-        "@types/react-dom": "^18.2.0",
+        "@types/react": "^18.2.6",
+        "@types/react-dom": "^18.2.4",
         "typescript": "4.9.5",
         "react-scripts": "5.0.1"
     },
