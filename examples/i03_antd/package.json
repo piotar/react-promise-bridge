@@ -1,5 +1,5 @@
 {
-    "name": "10_bootstrap",
+    "name": "i03_antd",
     "private": true,
     "version": "0.0.0",
     "type": "module",
@@ -10,9 +10,8 @@
     },
     "dependencies": {
         "@piotar/react-promise-bridge": "latest",
-        "bootstrap": "^5.2.3",
+        "antd": "^5.4.6",
         "react": "^18.2.0",
-        "react-bootstrap": "^2.7.4",
         "react-dom": "^18.2.0"
     },
     "devDependencies": {

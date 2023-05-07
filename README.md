@@ -186,6 +186,16 @@ const abortController = useDisposePromiseBridge(signals);
 
 [Example in StackBlitz](https://stackblitz.com/github/piotar/react-promise-bridge/tree/main/examples/08_destroy_component?file=src/components/SomeChild.tsx:L8)
 
+### `useFactoryPromiseBridge`
+
+A helper hook for creating a new `Promise Bridge` instance for dynamic React components.
+
+```javascript
+const [Container, opener] = useFactoryPromiseBridge(options);
+```
+
+[Example in StackBlitz](https://stackblitz.com/github/piotar/react-promise-bridge/tree/main/examples/i03_antd?file=src/components/Drawer.tsx:L32)
+
 ## Examples
 
 | Repository example | Open in StackBlitz |
@@ -198,5 +208,11 @@ const abortController = useDisposePromiseBridge(signals);
 | [#06 Entry with strategy reject if exists](/examples/06_strategy_reject_if_exists/) | [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz_small.svg)](https://stackblitz.com/github/piotar/react-promise-bridge/tree/main/examples/06_strategy_reject_if_exists?file=src/App.tsx) |
 | [#07 Multicontainer](/examples/07_multicontainers/) | [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz_small.svg)](https://stackblitz.com/github/piotar/react-promise-bridge/tree/main/examples/07_multicontainers?file=src/App.tsx) |
 | [#08 Destroy `Bridge` after destroy trigger component](/examples/08_destroy_component/) | [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz_small.svg)](https://stackblitz.com/github/piotar/react-promise-bridge/tree/main/examples/08_destroy_component?file=src/App.tsx) |
-| [#09 Material UI (MUI)](/examples/09_mui/) | [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz_small.svg)](https://stackblitz.com/github/piotar/react-promise-bridge/tree/main/examples/09_mui?file=src/App.tsx) |
-| [#10 React Bootstrap](/examples/10_bootstrap/) | [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz_small.svg)](https://stackblitz.com/github/piotar/react-promise-bridge/tree/main/examples/10_bootstrap?file=src/App.tsx) |
+
+### Integrations with UI libraries
+
+| Repository example | Open in StackBlitz |
+| --- | --- |
+| [#i01 Material UI (MUI)](/examples/i01_mui/) | [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz_small.svg)](https://stackblitz.com/github/piotar/react-promise-bridge/tree/main/examples/i01_mui?file=src/App.tsx) |
+| [#i02 React Bootstrap](/examples/i02_bootstrap/) | [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz_small.svg)](https://stackblitz.com/github/piotar/react-promise-bridge/tree/main/examples/i02_bootstrap?file=src/App.tsx) |
+| [#i03 Ant design (antd)](/examples/i03_antd/) | [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz_small.svg)](https://stackblitz.com/github/piotar/react-promise-bridge/tree/main/examples/i03_antd?file=src/App.tsx) |
