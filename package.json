@@ -51,7 +51,7 @@
     },
     "devDependencies": {
         "@testing-library/react": "14.0.0",
-        "@types/react": "18.2.12",
+        "@types/react": "18.2.13",
         "@vitejs/plugin-react": "4.0.0",
         "@vitest/coverage-c8": "0.32.2",
         "husky": "8.0.3",
