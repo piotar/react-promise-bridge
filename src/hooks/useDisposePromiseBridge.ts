@@ -5,6 +5,8 @@ import { ComposeAbortController } from '../utils/ComposeAbortController';
 export function useDisposePromiseBridge(signals?: AbortSignal[]): AbortController {
     const createController = useCallback(() => new ComposeAbortController(signals), [signals]);
     const [controller, setController] = useState<AbortController>(createController);
+    const controllerRef = useRef(controller);
+    controllerRef.current = controller;
     const createRef = useRef(createController);
     createRef.current = createController;
 
@@ -15,13 +17,12 @@ export function useDisposePromiseBridge(signals?: AbortSignal[]): AbortControlle
     }, [controller, createRef]);
 
     useEffect(
-        () => () =>
-            setController((composeController) => {
-                composeController.abort(new TriggerComponentDestroyedException());
-                return createRef.current();
-            }),
+        () => () => {
+            controllerRef.current.abort(new TriggerComponentDestroyedException());
+            setController((controllerRef.current = createRef.current()));
+        },
         [createRef.current],
     );
 
-    return controller;
+    return controllerRef.current;
 }
