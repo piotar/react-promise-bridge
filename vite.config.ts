@@ -5,7 +5,7 @@ import dts from 'vite-plugin-dts';
 import pkg from './package.json';
 
 export default defineConfig((env) => ({
-    plugins: [dts({ outputDir: './dist/types' }), react()],
+    plugins: [dts({ outDir: './dist/types' }), react()],
     build: {
         lib: {
             entry: resolve(__dirname, 'src/index.ts'),
