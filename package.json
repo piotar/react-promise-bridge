@@ -62,7 +62,7 @@
         "typescript": "5.1.6",
         "vite": "4.4.8",
         "vite-plugin-dts": "3.4.0",
-        "vitest": "0.34.0"
+        "vitest": "0.34.1"
     },
     "lint-staged": {
         "**/*.{js,ts,json}": "prettier --write --ignore-unknown"
