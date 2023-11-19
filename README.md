@@ -3,7 +3,6 @@
 [![GitHub package.json version](https://img.shields.io/github/package-json/v/piotar/react-promise-bridge)](https://github.com/piotar/react-promise-bridge)
 [![npm (scoped)](https://img.shields.io/npm/v/@piotar/react-promise-bridge)](https://www.npmjs.com/package/@piotar/react-promise-bridge)
 ![NPM](https://img.shields.io/npm/l/@piotar/react-promise-bridge)
-![Coverage](https://github.com/piotar/react-promise-bridge/raw/gh-pages/badge.svg)
 
 A library that allows you to **easily manage components** that ultimately return a value as a `Promise`.
 
