@@ -25,7 +25,7 @@ export default defineConfig((env) => ({
     test: {
         environment: 'jsdom',
         coverage: {
-            provider: 'c8',
+            provider: 'v8',
         },
     },
 }));
