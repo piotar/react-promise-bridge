@@ -50,7 +50,7 @@
         "react": ">=16.6.0"
     },
     "devDependencies": {
-        "@testing-library/react": "16.1.0",
+        "@testing-library/react": "16.2.0",
         "@types/react": "18.3.18",
         "@vitejs/plugin-react": "4.3.4",
         "@vitest/coverage-v8": "2.1.8",
