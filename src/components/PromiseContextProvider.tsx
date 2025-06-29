@@ -1,4 +1,4 @@
-import { memo, PropsWithChildren, useMemo } from 'react';
+import { memo, PropsWithChildren, type ReactElement, useMemo } from 'react';
 import { PromiseBridgeContext, PromiseContextType } from '../PromiseBridgeContext';
 
 interface PromiseContextProviderProps<T, R> {
@@ -12,7 +12,7 @@ function PromiseContextProviderComponent<T, R>({
     reject,
     signal,
     children,
-}: PropsWithChildren<PromiseContextProviderProps<T, R>>): JSX.Element {
+}: PropsWithChildren<PromiseContextProviderProps<T, R>>): ReactElement {
     const contextValue = useMemo<PromiseContextType<T, R>>(
         () => ({
             resolve,

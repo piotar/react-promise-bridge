@@ -61,17 +61,17 @@ describe('PromiseBridge', () => {
     });
 
     describe('open', () => {
-        it('should throw exception on destroyed Container', () => {
+        it('should throw exception on destroyed Container', async () => {
             const [Container, open] = PromiseBridge.create();
             const { unmount } = render(React.createElement(Container));
             const promise = open(React.createElement('div'));
             unmount();
-            expect(promise).rejects.toThrowError(ContainerDestroyedException);
+            await expect(promise).rejects.toThrowError(ContainerDestroyedException);
         });
 
-        it('should throw exception on invoke open function without mount Container', () => {
+        it('should throw exception on invoke open function without mount Container', async () => {
             const [, open] = PromiseBridge.create();
-            expect(open(React.createElement('div'))).rejects.toThrowError(ContainerNotMountedException);
+            await expect(open(React.createElement('div'))).rejects.toThrowError(ContainerNotMountedException);
         });
 
         it('should append components to Container with default strategy', () => {
@@ -85,16 +85,16 @@ describe('PromiseBridge', () => {
             expect(container.children.length).toBe(2);
         });
 
-        it('should throw exception without passed id in Recreate strategy', () => {
+        it('should throw exception without passed id in Recreate strategy', async () => {
             const [Container, open] = PromiseBridge.create();
             render(React.createElement(Container));
             // @ts-expect-error
-            expect(open(React.createElement('div'), { strategy: EntryStategy.Recreate })).rejects.toThrowError(
+            await expect(open(React.createElement('div'), { strategy: EntryStategy.Recreate })).rejects.toThrowError(
                 MissingEntryIdException,
             );
         });
 
-        it('should throw exception first promise with the same id in Recreate strategy', () => {
+        it('should throw exception first promise with the same id in Recreate strategy', async () => {
             const [Container, open] = PromiseBridge.create();
             const { unmount } = render(React.createElement(Container));
 
@@ -104,20 +104,20 @@ describe('PromiseBridge', () => {
             const instanceB = open(React.createElement('div'), { id, strategy: EntryStategy.Recreate });
 
             unmount();
-            expect(instanceA).rejects.toThrowError(EntryRecreateException);
-            expect(instanceB).rejects.toThrowError(ContainerDestroyedException);
+            await expect(instanceA).rejects.toThrowError(EntryRecreateException);
+            await expect(instanceB).rejects.toThrowError(ContainerDestroyedException);
         });
 
-        it('should throw exception without passed id in RejectIfExists strategy', () => {
+        it('should throw exception without passed id in RejectIfExists strategy', async () => {
             const [Container, open] = PromiseBridge.create();
             render(React.createElement(Container));
-            // @ts-expect-error
-            expect(open(React.createElement('div'), { strategy: EntryStategy.RejectIfExists })).rejects.toThrowError(
-                MissingEntryIdException,
-            );
+            await expect(
+                // @ts-expect-error
+                open(React.createElement('div'), { strategy: EntryStategy.RejectIfExists }),
+            ).rejects.toThrowError(MissingEntryIdException);
         });
 
-        it('should throw exception new one promise with the same id in RejectIfExists strategy', () => {
+        it('should throw exception new one promise with the same id in RejectIfExists strategy', async () => {
             const [Container, open] = PromiseBridge.create();
             const { unmount } = render(React.createElement(Container));
 
@@ -127,8 +127,8 @@ describe('PromiseBridge', () => {
             const instanceB = open(React.createElement('div'), { id, strategy: EntryStategy.RejectIfExists });
 
             unmount();
-            expect(instanceA).rejects.toThrowError(ContainerDestroyedException);
-            expect(instanceB).rejects.toThrowError(EntryExistsException);
+            await expect(instanceA).rejects.toThrowError(ContainerDestroyedException);
+            await expect(instanceB).rejects.toThrowError(EntryExistsException);
         });
 
         it('should open component and resolve using inside hook', async () => {
@@ -150,7 +150,7 @@ describe('PromiseBridge', () => {
             });
 
             fireEvent.click(screen.getByRole('button'));
-            expect(instance!).resolves.toBe('lorem');
+            await expect(instance!).resolves.toBe('lorem');
         });
 
         it('should open component and reject using inside hook', async () => {
@@ -172,7 +172,7 @@ describe('PromiseBridge', () => {
             });
 
             fireEvent.click(screen.getByRole('button'));
-            expect(instance!).rejects.toThrow(Error);
+            await expect(instance!).rejects.toThrow(Error);
         });
 
         it('should throw exception when mount passed component outside invoke function of Promise Bridge', async () => {

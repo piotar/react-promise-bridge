@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect, useState, type ReactElement } from 'react';
 import { PromiseContextProvider } from './PromiseContextProvider';
 import { ContainerLimitReachedException } from '../exceptions/ContainerLimitReachedException';
 import { PromiseBridgeEntry } from '../utils/PromiseBridgeEntry';
@@ -14,7 +14,7 @@ export function PromiseBridgeContainer({
     subscription,
     initialState,
     isMultiContainer,
-}: PromiseBridgeContainerProps): JSX.Element {
+}: PromiseBridgeContainerProps): ReactElement {
     const [components, setComponents] = useState(initialState);
 
     useEffect(() => {
