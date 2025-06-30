@@ -42,8 +42,8 @@
         "test": "vitest run",
         "coverage": "vitest run --coverage",
         "prettier": "prettier --write --ignore-unknown ./src/**/*.{ts,tsx,json}",
-        "prepare": "husky install",
-        "prepublishOnly": "npm run build",
+        "prepare": "bunx husky",
+        "prepublishOnly": "bun run build",
         "type-check": "tsc --noEmit"
     },
     "peerDependencies": {
