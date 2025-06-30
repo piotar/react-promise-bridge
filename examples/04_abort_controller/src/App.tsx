@@ -1,4 +1,4 @@
-import { CSSProperties, Fragment, useRef, useState } from 'react';
+import { CSSProperties, Fragment, ReactElement, useRef, useState } from 'react';
 import { Confirm } from './components/Confirm';
 import { Container, open } from './components/SystemPromiseBridge';
 import { ColorPicker } from './components/ColorPicker';
@@ -6,7 +6,7 @@ import { ColorPicker } from './components/ColorPicker';
 let basicCounter = 0;
 let confirmationCounter = 0;
 
-export function App(): JSX.Element {
+export function App(): ReactElement {
     const abortRef = useRef(new AbortController());
     const [style, setStyle] = useState<CSSProperties | undefined>();
 

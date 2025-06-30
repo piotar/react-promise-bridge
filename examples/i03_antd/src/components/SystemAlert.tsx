@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { ReactElement, useEffect } from 'react';
 import { usePromiseBridge } from '@piotar/react-promise-bridge';
 import { Alert, AlertProps } from 'antd';
 import { open } from './SystemPromiseBridge';
@@ -8,7 +8,7 @@ interface SystemAlertProps extends Pick<AlertProps, 'type'> {
     header?: string;
 }
 
-export function SystemAlert({ header, content, type }: SystemAlertProps): JSX.Element {
+export function SystemAlert({ header, content, type }: SystemAlertProps): ReactElement {
     const { resolve } = usePromiseBridge<boolean>();
 
     useEffect(() => {

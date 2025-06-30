@@ -10,14 +10,14 @@
     },
     "dependencies": {
         "@piotar/react-promise-bridge": "latest",
-        "antd": "^5.4.7",
-        "react": "^18.2.0",
-        "react-dom": "^18.2.0"
+        "antd": "^5.26.3",
+        "react": "^19.1.0",
+        "react-dom": "^19.1.0"
     },
     "devDependencies": {
-        "@types/react": "^18.2.6",
-        "@types/react-dom": "^18.2.4",
-        "typescript": "^5.0.4",
-        "vite": "^4.3.5"
+        "@types/react": "^19.1.8",
+        "@types/react-dom": "^19.1.6",
+        "typescript": "^5.8.3",
+        "vite": "^7.0.0"
     }
 }

@@ -73,7 +73,7 @@ interface ConfirmProps {
     message: string;
 }
 
-export function Confirm({ header, message }: ConfirmProps): JSX.Element {
+export function Confirm({ header, message }: ConfirmProps): ReactElement {
     const { resolve, reject } = usePromiseBridge<boolean>();
 
     return (
@@ -101,7 +101,7 @@ Invoke promise bridge function to open component inside `React` component:
 // ./App.tsx
 import { open } from './SystemPromiseBridge';
 
-export function App({ children }: React.PropsWithChildren<unknown>): JSX.Element {
+export function App({ children }: React.PropsWithChildren<unknown>): ReactElement {
     const handleConfirmClick = async () => {
         try {
             await open(<Confirm header="Confirmation" message="Some custom message" />);

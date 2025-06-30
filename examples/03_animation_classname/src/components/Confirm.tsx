@@ -1,11 +1,12 @@
 import { PromiseState, useDeferredPromiseBridge } from '@piotar/react-promise-bridge';
+import { ReactElement } from 'react';
 
 interface ConfirmProps {
     header?: string;
     message: string;
 }
 
-export function Confirm({ header, message }: ConfirmProps): JSX.Element {
+export function Confirm({ header, message }: ConfirmProps): ReactElement {
     const { state, resolve, reject, trigger } = useDeferredPromiseBridge<boolean>();
 
     return (

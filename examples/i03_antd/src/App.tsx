@@ -1,4 +1,4 @@
-import { CSSProperties, Fragment, useState } from 'react';
+import { CSSProperties, Fragment, ReactElement, useState } from 'react';
 import { confirm } from './components/Confirm';
 import { Container, open } from './components/SystemPromiseBridge';
 import { colorPicker } from './components/ColorPicker';
@@ -6,7 +6,7 @@ import { alert } from './components/SystemAlert';
 import { Button } from 'antd';
 import { TopDrawer } from './components/Drawer';
 
-export function App(): JSX.Element {
+export function App(): ReactElement {
     const [style, setStyle] = useState<CSSProperties | undefined>();
 
     return (

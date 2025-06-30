@@ -1,8 +1,8 @@
-import { Fragment, useState } from 'react';
+import { Fragment, ReactElement, useState } from 'react';
 import { Container } from './components/SystemPromiseBridge';
 import { SomeChild } from './components/SomeChild';
 
-export function App(): JSX.Element {
+export function App(): ReactElement {
     const [isSomeChildVisible, setIsSomeChildVisible] = useState(true);
 
     return (

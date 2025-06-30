@@ -6,13 +6,14 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { open } from './SystemPromiseBridge';
+import { ReactElement } from 'react';
 
 interface ConfirmProps {
     header?: string;
     message: string;
 }
 
-export function Confirm({ header, message }: ConfirmProps): JSX.Element {
+export function Confirm({ header, message }: ConfirmProps): ReactElement {
     const { resolve, reject, state, trigger } = useDeferredPromiseBridge<void>();
     const handleClose = () => reject();
     const handleConfirm = () => resolve();

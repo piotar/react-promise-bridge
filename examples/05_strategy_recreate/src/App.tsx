@@ -1,4 +1,4 @@
-import { CSSProperties, Fragment, useState } from 'react';
+import { CSSProperties, Fragment, ReactElement, useState } from 'react';
 import { EntryStategy } from '@piotar/react-promise-bridge';
 import { Confirm } from './components/Confirm';
 import { Container, open } from './components/SystemPromiseBridge';
@@ -7,7 +7,7 @@ import { ColorPicker } from './components/ColorPicker';
 let basicCounter = 0;
 let confirmationCounter = 0;
 
-export function App(): JSX.Element {
+export function App(): ReactElement {
     const [style, setStyle] = useState<CSSProperties | undefined>();
 
     const handleColorPickerClick = async () => {

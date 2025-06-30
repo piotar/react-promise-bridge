@@ -1,11 +1,12 @@
 import { usePromiseBridge } from '@piotar/react-promise-bridge';
+import { ReactElement } from 'react';
 
 interface ConfirmProps {
     header?: string;
     message: string;
 }
 
-export function Confirm({ header, message }: ConfirmProps): JSX.Element {
+export function Confirm({ header, message }: ConfirmProps): ReactElement {
     const { resolve, reject } = usePromiseBridge<boolean>();
 
     return (

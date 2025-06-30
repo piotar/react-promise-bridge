@@ -2,13 +2,14 @@ import { PromiseState, useDeferredPromiseBridge } from '@piotar/react-promise-br
 import { open } from './SystemPromiseBridge';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import { ReactElement } from 'react';
 
 interface ConfirmProps {
     header?: string;
     message: string;
 }
 
-export function Confirm({ header, message }: ConfirmProps): JSX.Element {
+export function Confirm({ header, message }: ConfirmProps): ReactElement {
     const { resolve, reject, state, trigger } = useDeferredPromiseBridge<void>();
     const handleClose = () => reject();
     const handleConfirm = () => resolve();

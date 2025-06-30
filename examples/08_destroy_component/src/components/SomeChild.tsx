@@ -1,9 +1,9 @@
-import { CSSProperties, useState } from 'react';
+import { CSSProperties, ReactElement, useState } from 'react';
 import { useDisposePromiseBridge } from '@piotar/react-promise-bridge';
 import { ColorPicker } from './ColorPicker';
 import { open } from './SystemPromiseBridge';
 
-export function SomeChild(): JSX.Element {
+export function SomeChild(): ReactElement {
     const [style, setStyle] = useState<CSSProperties | undefined>();
     const { signal } = useDisposePromiseBridge();
 

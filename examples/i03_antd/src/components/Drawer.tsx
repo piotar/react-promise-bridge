@@ -1,7 +1,8 @@
 import { PromiseState, useDeferredPromiseBridge, useFactoryPromiseBridge } from '@piotar/react-promise-bridge';
 import { Button, Drawer, Space } from 'antd';
+import { ReactElement } from 'react';
 
-function SecondDrawer(): JSX.Element {
+function SecondDrawer(): ReactElement {
     const { state, resolve, trigger } = useDeferredPromiseBridge();
 
     const handleClose = () => resolve(false);
@@ -27,7 +28,7 @@ function SecondDrawer(): JSX.Element {
     );
 }
 
-export function TopDrawer(): JSX.Element {
+export function TopDrawer(): ReactElement {
     const { state, resolve, trigger } = useDeferredPromiseBridge();
     const [Container, open] = useFactoryPromiseBridge();
 

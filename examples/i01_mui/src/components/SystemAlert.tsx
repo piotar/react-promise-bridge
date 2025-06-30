@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { ReactElement, useEffect } from 'react';
 import Alert, { AlertProps } from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import { usePromiseBridge } from '@piotar/react-promise-bridge';
@@ -10,7 +10,7 @@ interface SystemAlertProps {
     severity?: AlertProps['severity'];
 }
 
-export function SystemAlert({ header, content, severity }: SystemAlertProps): JSX.Element {
+export function SystemAlert({ header, content, severity }: SystemAlertProps): ReactElement {
     const { resolve } = usePromiseBridge<boolean>();
 
     useEffect(() => {
