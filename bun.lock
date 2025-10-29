@@ -4,7 +4,7 @@
     "": {
       "name": "@piotar/react-promise-bridge",
       "devDependencies": {
-        "@happy-dom/global-registrator": "20.0.9",
+        "@happy-dom/global-registrator": "20.0.10",
         "@testing-library/react": "16.3.0",
         "@types/react": "19.2.2",
         "@vitejs/plugin-react": "5.1.0",
@@ -117,7 +117,7 @@
 
     "@esbuild/win32-x64": ["@esbuild/win32-x64@0.25.5", "", { "os": "win32", "cpu": "x64" }, "sha512-TXv6YnJ8ZMVdX+SXWVBo/0p8LTcrUYngpWjvm91TMjjBQii7Oz11Lw5lbDV5Y0TzuhSJHwiH4hEtC1I42mMS0g=="],
 
-    "@happy-dom/global-registrator": ["@happy-dom/global-registrator@20.0.9", "", { "dependencies": { "@types/node": "^20.0.0", "happy-dom": "^20.0.9" } }, "sha512-eLfHiS+Dt5tI+1tL3yad77Shxl5T+TcFCpM9aU/+HsyCDq3KUp+50lvluqeOJI1SJTmPExYvfkjU29Lqm/4eUQ=="],
+    "@happy-dom/global-registrator": ["@happy-dom/global-registrator@20.0.10", "", { "dependencies": { "@types/node": "^20.0.0", "happy-dom": "^20.0.10" } }, "sha512-GU0UBt9lJKhZlY/U0Bivj9ZVepDIQoAUupAAl/90THG4/urkzXNglkVYETsnt2pGBDgQ+4vBjMAbLu6XzcKcQA=="],
 
     "@jridgewell/gen-mapping": ["@jridgewell/gen-mapping@0.3.12", "", { "dependencies": { "@jridgewell/sourcemap-codec": "^1.5.0", "@jridgewell/trace-mapping": "^0.3.24" } }, "sha512-OuLGC46TjB5BbN1dH8JULVVZY4WTdkF7tV9Ys6wLL1rubZnCMstOhNHueU5bLCrnRuDhKPDM4g6sw4Bel5Gzqg=="],
 
