@@ -54,7 +54,7 @@
         "@testing-library/react": "16.3.1",
         "@types/react": "19.2.7",
         "@vitejs/plugin-react": "5.1.2",
-        "@vitest/coverage-v8": "4.0.15",
+        "@vitest/coverage-v8": "4.0.16",
         "husky": "9.1.7",
         "lint-staged": "16.2.7",
         "prettier": "3.7.4",
@@ -63,7 +63,7 @@
         "typescript": "5.9.3",
         "vite": "7.3.0",
         "vite-plugin-dts": "4.5.4",
-        "vitest": "4.0.15"
+        "vitest": "4.0.16"
     },
     "lint-staged": {
         "**/*.{js,ts,json}": "prettier --write --ignore-unknown"
