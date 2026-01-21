@@ -57,7 +57,7 @@
         "@vitest/coverage-v8": "4.0.17",
         "husky": "9.1.7",
         "lint-staged": "16.2.7",
-        "prettier": "3.8.0",
+        "prettier": "3.8.1",
         "react": "19.2.3",
         "react-dom": "19.2.3",
         "typescript": "5.9.3",
