@@ -5,7 +5,7 @@
     "": {
       "name": "@piotar/react-promise-bridge",
       "devDependencies": {
-        "@happy-dom/global-registrator": "20.10.0",
+        "@happy-dom/global-registrator": "20.10.1",
         "@testing-library/react": "16.3.2",
         "@types/react": "19.2.16",
         "@vitejs/plugin-react": "5.2.0",
@@ -120,7 +120,7 @@
 
     "@esbuild/win32-x64": ["@esbuild/win32-x64@0.27.1", "", { "os": "win32", "cpu": "x64" }, "sha512-d5X6RMYv6taIymSk8JBP+nxv8DQAMY6A51GPgusqLdK9wBz5wWIXy1KjTck6HnjE9hqJzJRdk+1p/t5soSbCtw=="],
 
-    "@happy-dom/global-registrator": ["@happy-dom/global-registrator@20.10.0", "", { "dependencies": { "@types/node": ">=20.0.0", "happy-dom": "^20.10.0" } }, "sha512-OQOQjqxqIajjm7zpqQ9ABHA3tA9WvXvuOAS/hmDPcZkMWzwAzNPQDx4UtLY0S/Bim54WREmMOQNZPNXqTjklkg=="],
+    "@happy-dom/global-registrator": ["@happy-dom/global-registrator@20.10.1", "", { "dependencies": { "@types/node": ">=20.0.0", "happy-dom": "^20.10.1" } }, "sha512-nIT1Jdsar1KnLuqX+q3oMKwUIDcSJ4GnGMBnCtXLLL+lIpqaBBACPIo9By3NeF15XDPLDLIou8aQd3/xqZoSkQ=="],
 
     "@jridgewell/gen-mapping": ["@jridgewell/gen-mapping@0.3.12", "", { "dependencies": { "@jridgewell/sourcemap-codec": "^1.5.0", "@jridgewell/trace-mapping": "^0.3.24" } }, "sha512-OuLGC46TjB5BbN1dH8JULVVZY4WTdkF7tV9Ys6wLL1rubZnCMstOhNHueU5bLCrnRuDhKPDM4g6sw4Bel5Gzqg=="],
 
@@ -362,7 +362,7 @@
 
     "graceful-fs": ["graceful-fs@4.2.11", "", {}, "sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ=="],
 
-    "happy-dom": ["happy-dom@20.10.0", "", { "dependencies": { "@types/node": ">=20.0.0", "@types/whatwg-mimetype": "^3.0.2", "@types/ws": "^8.18.1", "buffer-image-size": "^0.6.4", "entities": "^7.0.1", "whatwg-mimetype": "^3.0.0", "ws": "^8.18.3" } }, "sha512-JP6AMWV4ZBl0EaS9B/4Ocbz/4P8uypTwqxL/MDpbeMl4qbAzbsye+X1Jw38jLqZLPrtaFkvANKfJweW7upM3PQ=="],
+    "happy-dom": ["happy-dom@20.10.1", "", { "dependencies": { "@types/node": ">=20.0.0", "@types/whatwg-mimetype": "^3.0.2", "@types/ws": "^8.18.1", "buffer-image-size": "^0.6.4", "entities": "^7.0.1", "whatwg-mimetype": "^3.0.0", "ws": "^8.18.3" } }, "sha512-awPoqPjx8CgjapJllyDlgzgVHjBExcitKK5ZJkxwhQJyQpHFkyS2bEcqCm7IeW20cQvuCI0cz2Ifq79CJKqtiw=="],
 
     "has-flag": ["has-flag@4.0.0", "", {}, "sha512-EykJT/Q1KjTWctppgIAgfSO0tKVuZUjhgMr17kqTumMl6Afv3EISleU7qZUzoXDFTAHTDC4NOoG/ZxU3EvlMPQ=="],
 
