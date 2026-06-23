@@ -19,7 +19,13 @@ describe('useFactoryPromiseBridge', () => {
         expect(Container).toBe(result.current[0]);
         expect(opener).toBe(result.current[1]);
 
+        // A new options object that is value-equal must NOT rebuild the bridge.
         rerender({});
+        expect(Container).toBe(result.current[0]);
+        expect(opener).toBe(result.current[1]);
+
+        // Changing an actual option value rebuilds the bridge.
+        rerender({ isMultiContainer: true });
         expect(Container).not.toBe(result.current[0]);
         expect(opener).not.toBe(result.current[1]);
     });

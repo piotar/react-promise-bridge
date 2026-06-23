@@ -1,5 +1,5 @@
 import { CSSProperties, Fragment, ReactElement, useState } from 'react';
-import { EntryStategy } from '@piotar/react-promise-bridge';
+import { EntryStrategy } from '@piotar/react-promise-bridge';
 import { Confirm } from './components/Confirm';
 import { Container, open } from './components/SystemPromiseBridge';
 import { ColorPicker } from './components/ColorPicker';
@@ -13,7 +13,7 @@ export function App(): ReactElement {
     const handleColorPickerClick = async () => {
         try {
             const color = await open<string>(<ColorPicker value={style?.color} />, {
-                strategy: EntryStategy.Recreate,
+                strategy: EntryStrategy.Recreate,
                 id: 'colorPicker',
             });
             console.log('selected color', color);
@@ -27,7 +27,7 @@ export function App(): ReactElement {
         const counter = confirmationCounter++;
         try {
             await open(<Confirm header={`Confirmation #${counter}`} message={message} />, {
-                strategy: EntryStategy.Recreate,
+                strategy: EntryStrategy.Recreate,
                 id: 'confirm',
             });
             // handle confirm
@@ -47,7 +47,7 @@ export function App(): ReactElement {
                         type="button"
                         onClick={() =>
                             open(<p>Mounted component without any actions #{basicCounter++}</p>, {
-                                strategy: EntryStategy.Recreate,
+                                strategy: EntryStrategy.Recreate,
                                 id: 'inline',
                             })
                         }

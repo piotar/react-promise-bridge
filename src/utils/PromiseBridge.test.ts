@@ -5,7 +5,7 @@ import { PromiseBridge } from './PromiseBridge';
 import { ContainerDestroyedException } from '../exceptions/ContainerDestroyedException';
 import { ContainerLimitReachedException } from '../exceptions/ContainerLimitReachedException';
 import { ContainerNotMountedException } from '../exceptions/ContainerNotMountedException';
-import { EntryStategy } from '../constants/EntryStategy';
+import { EntryStrategy } from '../constants/EntryStrategy';
 import { MissingEntryIdException } from '../exceptions/MissingEntryIdException';
 import { EntryRecreateException } from '../exceptions/EntryRecreateException';
 import { EntryExistsException } from '../exceptions/EntryExistsException';
@@ -79,7 +79,7 @@ describe('PromiseBridge', () => {
             const { container } = render(React.createElement(Container));
             act(() => {
                 open(React.createElement('div')).catch(noope);
-                open(React.createElement('div'), { strategy: EntryStategy.Normal }).catch(noope);
+                open(React.createElement('div'), { strategy: EntryStrategy.Normal }).catch(noope);
             });
             expect(container).instanceOf(HTMLDivElement);
             expect(container.children.length).toBe(2);
@@ -89,7 +89,7 @@ describe('PromiseBridge', () => {
             const [Container, open] = PromiseBridge.create();
             render(React.createElement(Container));
             // @ts-expect-error
-            await expect(open(React.createElement('div'), { strategy: EntryStategy.Recreate })).rejects.toThrowError(
+            await expect(open(React.createElement('div'), { strategy: EntryStrategy.Recreate })).rejects.toThrowError(
                 MissingEntryIdException,
             );
         });
@@ -100,8 +100,8 @@ describe('PromiseBridge', () => {
 
             const id = 'customId';
 
-            const instanceA = open(React.createElement('div'), { id, strategy: EntryStategy.Recreate });
-            const instanceB = open(React.createElement('div'), { id, strategy: EntryStategy.Recreate });
+            const instanceA = open(React.createElement('div'), { id, strategy: EntryStrategy.Recreate });
+            const instanceB = open(React.createElement('div'), { id, strategy: EntryStrategy.Recreate });
 
             unmount();
             await expect(instanceA).rejects.toThrowError(EntryRecreateException);
@@ -113,7 +113,7 @@ describe('PromiseBridge', () => {
             render(React.createElement(Container));
             await expect(
                 // @ts-expect-error
-                open(React.createElement('div'), { strategy: EntryStategy.RejectIfExists }),
+                open(React.createElement('div'), { strategy: EntryStrategy.RejectIfExists }),
             ).rejects.toThrowError(MissingEntryIdException);
         });
 
@@ -123,8 +123,8 @@ describe('PromiseBridge', () => {
 
             const id = 'customId';
 
-            const instanceA = open(React.createElement('div'), { id, strategy: EntryStategy.RejectIfExists });
-            const instanceB = open(React.createElement('div'), { id, strategy: EntryStategy.RejectIfExists });
+            const instanceA = open(React.createElement('div'), { id, strategy: EntryStrategy.RejectIfExists });
+            const instanceB = open(React.createElement('div'), { id, strategy: EntryStrategy.RejectIfExists });
 
             unmount();
             await expect(instanceA).rejects.toThrowError(ContainerDestroyedException);

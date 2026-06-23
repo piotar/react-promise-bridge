@@ -7,6 +7,9 @@ export function useDisposePromiseBridge(signals?: AbortSignal[]): AbortControlle
     const [controller, setController] = useState<AbortController>(createController);
     const controllerRef = useRef(controller);
     controllerRef.current = controller;
+    // `createRef` always points at the latest `createController`. The dispose effect's cleanup
+    // reads it at cleanup time (not from its captured closure) so a `signals` change recomposes
+    // with a fresh controller built from the *new* signals, not the stale ones.
     const createRef = useRef(createController);
     createRef.current = createController;
 

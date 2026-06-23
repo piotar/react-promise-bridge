@@ -1,6 +1,6 @@
 import { ComponentType, createElement, memo, ReactElement } from 'react';
 import { PromiseBridgeContainer, PromiseBridgeContainerProps } from '../components/PromiseBridgeContainer';
-import { EntryStategy } from '../constants/EntryStategy';
+import { EntryStrategy } from '../constants/EntryStrategy';
 import { ContainerDestroyedException } from '../exceptions/ContainerDestroyedException';
 import { ContainerNotMountedException } from '../exceptions/ContainerNotMountedException';
 import { EntryExistsException } from '../exceptions/EntryExistsException';
@@ -49,12 +49,12 @@ export class PromiseBridge {
         options: RecreateOrRejectStrategyCreateEntryOptions | NormalStrategyCreateEntryOptions,
     ): void {
         switch (options.strategy) {
-            case EntryStategy.Recreate:
+            case EntryStrategy.Recreate:
                 if (!options.id) {
                     throw new MissingEntryIdException();
                 }
                 return void this.entries.find(({ id }) => id === options.id)?.reject(new EntryRecreateException());
-            case EntryStategy.RejectIfExists:
+            case EntryStrategy.RejectIfExists:
                 if (!options.id) {
                     throw new MissingEntryIdException();
                 }
@@ -62,7 +62,7 @@ export class PromiseBridge {
                     throw new EntryExistsException();
                 }
                 return void 0;
-            case EntryStategy.Normal:
+            case EntryStrategy.Normal:
             default:
                 return void 0;
         }
@@ -79,7 +79,7 @@ export class PromiseBridge {
 
     private async createEntry<T>(component: ReactElement, options?: CreateEntryOptions): Promise<T> {
         const entryOptions: CreateEntryOptions = {
-            strategy: EntryStategy.Normal,
+            strategy: EntryStrategy.Normal,
             ...options,
         };
         this.entryGuard(entryOptions);

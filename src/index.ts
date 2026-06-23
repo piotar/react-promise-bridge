@@ -30,5 +30,5 @@ export * from './components/PromiseBridgeContainer';
 export * from './components/PromiseContextProvider';
 
 export * from './constants/AbortSignalStrategy';
-export * from './constants/EntryStategy';
+export * from './constants/EntryStrategy';
 export * from './constants/PromiseState';

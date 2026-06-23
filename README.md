@@ -162,7 +162,7 @@ Mounts `element` in the `Container` and resolves/rejects when the component call
 ```ts
 open<string>(<ColorPicker />, {
     signal,                          // AbortSignal — abort cancels the pending entry
-    strategy: EntryStategy.Recreate, // how to treat an entry with the same id
+    strategy: EntryStrategy.Recreate, // how to treat an entry with the same id
     id: 'colorPicker',               // required by Recreate / RejectIfExists strategies
 });
 ```
@@ -217,15 +217,15 @@ const [Container, open] = useFactoryPromiseBridge(options);
 
 [Example](https://stackblitz.com/github/piotar/react-promise-bridge/tree/main/examples/i03_antd?file=src/components/Drawer.tsx:L32)
 
-### Entry strategies — `EntryStategy`
+### Entry strategies — `EntryStrategy`
 
 Passed via `open(element, { strategy, id })` to control duplicate entries:
 
 | Strategy | Behaviour | Needs `id` |
 | --- | --- | --- |
-| `EntryStategy.Normal` *(default)* | Always opens a new entry. | no |
-| `EntryStategy.Recreate` | Rejects an existing entry with the same `id` (with `EntryRecreateException`), then opens a fresh one. | yes |
-| `EntryStategy.RejectIfExists` | If an entry with the same `id` already exists, the new `open` throws `EntryExistsException`. | yes |
+| `EntryStrategy.Normal` *(default)* | Always opens a new entry. | no |
+| `EntryStrategy.Recreate` | Rejects an existing entry with the same `id` (with `EntryRecreateException`), then opens a fresh one. | yes |
+| `EntryStrategy.RejectIfExists` | If an entry with the same `id` already exists, the new `open` throws `EntryExistsException`. | yes |
 
 ### Enums & types
 

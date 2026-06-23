@@ -100,7 +100,7 @@ const ok = await open<boolean>(<Confirm message="Sure?" />); // throws if reject
 `open(element, { signal?, strategy?, id? })`:
 
 - `signal: AbortSignal` — aborting rejects the pending entry (`EntryAbortedBySignalException`).
-- `strategy` (`EntryStategy`, default `Normal`):
+- `strategy` (`EntryStrategy`, default `Normal`):
   - `Recreate` — reject any existing entry with the same `id`, then open fresh (`id` required).
   - `RejectIfExists` — throw `EntryExistsException` if `id` already open (`id` required).
 - Missing `id` with `Recreate`/`RejectIfExists` throws `MissingEntryIdException`.
