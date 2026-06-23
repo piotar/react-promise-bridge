@@ -242,6 +242,40 @@ All extend `PromiseBridgeException`, so you can `catch` broadly or narrow by cla
 `TriggerComponentDestroyedException`, and the abort-related `EntryAbortedBySignalException` /
 `ExternalAbortSignalException`.
 
+## Caveats & gotchas
+
+A few behaviours are intentional but easy to trip over:
+
+- **Always handle the promise — even fire-and-forget.** A cancel is a *rejection*, and the library
+  also rejects pending entries on its own: when the `Container` unmounts
+  (`ContainerDestroyedException`), when a `Recreate` entry is replaced (`EntryRecreateException`),
+  and when an `AbortSignal` fires. An `open(...)` whose result you never `await`/`catch` will surface
+  as an **unhandled promise rejection**. For fire-and-forget, attach a no-op handler:
+
+  ```ts
+  open(<Toast message="Saved" />).catch(() => {});
+  ```
+
+- **`Container` must be mounted before `open`.** Calling `open` with no mounted `Container` rejects
+  with `ContainerNotMountedException`. By default only **one** `Container` may be mounted per bridge
+  (a second throws `ContainerLimitReachedException`); opt into several with
+  `PromiseBridge.create({ isMultiContainer: true })`.
+
+- **Multi-container mirrors the *same* element.** With `isMultiContainer`, an opened element is
+  rendered in **every** mounted `Container` — i.e. the same component mounts more than once with
+  independent local state. Settling from any copy resolves the single shared promise. Use it for
+  intentional mirroring, not as a way to "pick" one container.
+
+- **Remounting a `Container` rejects its pending entries.** Unmounting a `Container` (conditional
+  rendering, route changes, React Strict Mode's dev remount) dispatches a destroy that rejects any
+  in-flight entries with `ContainerDestroyedException`. Keep the `Container` mounted for the lifetime
+  of the flows it serves; in practice it mounts empty, so Strict Mode's double-invoke is harmless.
+
+- **Pass stable options to `useFactoryPromiseBridge`.** The bridge is memoized by the *values* of
+  `isMultiContainer` and `container`, so an inline object is fine — but if you pass a `signal` array
+  to `useDisposePromiseBridge`, give it a **stable reference** (e.g. `useMemo`), since a new array
+  identity each render recomposes the controller.
+
 ## Examples
 
 | Repository example | Open in StackBlitz |

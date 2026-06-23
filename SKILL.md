@@ -78,11 +78,23 @@ const ok = await open<boolean>(<Confirm message="Sure?" />); // throws if reject
   throws `MissingContextException`. The opened component talks back through React context, so it
   needs **no props** for resolve/reject.
 - **`reject` rejects the promise** — always `await open(...)` inside `try/catch` (or `.catch`),
-  because "cancel" is a rejection, not a resolved `false`.
+  because "cancel" is a rejection, not a resolved `false`. **Even fire-and-forget calls need a
+  handler** (`open(<Toast/>).catch(() => {})`): the library also rejects pending entries on its own
+  — `Container` unmount (`ContainerDestroyedException`), `Recreate` replacement
+  (`EntryRecreateException`), abort signals — so an unhandled `open` becomes an unhandled rejection.
 - **Type both sides:** `open<T>(...)` and `usePromiseBridge<T, R>()` must agree on the resolve type
   `T` (and optionally reject type `R`).
 - **Don't manage open/close state yourself.** No `useState(isOpen)`, no conditional rendering of the
   dialog — `open`/`resolve`/`reject` are the entire lifecycle.
+- **Keep the `Container` mounted** for the lifetime of the flows it serves. Unmounting it
+  (conditional render, route change, Strict Mode dev remount) rejects every in-flight entry with
+  `ContainerDestroyedException`.
+- **`isMultiContainer` mirrors the same element into every mounted `Container`** (same component,
+  independent local state); settling any copy resolves the one shared promise. Don't use it to
+  target a single container.
+- **Pass stable references for memoized inputs.** `useFactoryPromiseBridge` is memoized by option
+  *values*, but `useDisposePromiseBridge(signals)` recomposes when the `signals` array identity
+  changes — wrap it in `useMemo` if built inline.
 
 ## Choosing the right hook
 
