@@ -4,205 +4,252 @@
 [![npm (scoped)](https://img.shields.io/npm/v/@piotar/react-promise-bridge)](https://www.npmjs.com/package/@piotar/react-promise-bridge)
 ![NPM](https://img.shields.io/npm/l/@piotar/react-promise-bridge)
 
-A library that allows you to **easily manage components** that ultimately return a value as a `Promise`.
+**Render a React component and `await` the value it produces — as a `Promise`.**
 
-This is a simple wrapper that provided the `context` to resolve or reject the `Promise`.
+`react-promise-bridge` bridges the *imperative* world (call a function, get a result back) with the
+*declarative* world of React (render a component). You call `open(<Dialog />)`, the component is
+mounted for you, and from inside it you call `resolve(value)` or `reject(reason)` to settle the
+promise and unmount the component.
 
-This abstract component is designed for dialogs, popups, modals, toasts, dynamic messages, notifications, etc.
+It's a tiny, dependency-free primitive for anything that "asks the user something and returns an
+answer": **confirm dialogs, modals, popups, toasts, notifications, color pickers, wizards** — you
+own the UI, the library only owns the promise.
 
-**It is all up to you**.
+## Why
+
+Without it, asking the user a question means juggling state, callbacks, and conditional rendering:
+
+```tsx
+// ❌ state + callbacks scattered across the component
+const [confirmOpen, setConfirmOpen] = useState(false);
+const onDelete = () => setConfirmOpen(true);
+// ...somewhere in JSX:
+{confirmOpen && <Confirm onYes={reallyDelete} onNo={() => setConfirmOpen(false)} />}
+```
+
+With `react-promise-bridge` the question reads top-to-bottom, like any other async call:
+
+```tsx
+// ✅ imperative, linear, colocated
+const onDelete = async () => {
+    try {
+        await open(<Confirm message="Delete this item?" />);
+        reallyDelete();
+    } catch {
+        /* user cancelled */
+    }
+};
+```
+
+## Features
+
+- **Lightweight, zero dependencies** (only a React peer dependency, `>=16.6`).
+- **`open()` works inside *and* outside React** — call it from event handlers, effects, or plain JS.
+- **No prop drilling** — the component talks back through React `context`, not props.
+- **Bring your own component** — no wrapper, no required props; existing components just work.
+- Multiple independent bridges and **multiple / nested containers**.
+- **`AbortSignal` support** — cancel pending entries from the outside.
+- **Entry strategies** — recreate or reject duplicates by `id`.
+- **Deferred resolution** for exit animations.
 
 ## Installation
 
 ```sh
 npm install @piotar/react-promise-bridge
+# or: bun add / yarn add / pnpm add
 ```
 
-## Features
+## Mental model
 
-- lightweight, **no additional dependencies**
-- multiple instances and mulitple containers
-- nested containers and nested entries
-- containers can be placed **anywhere** in other application contexts
-- no additional properties, based on `context`
-- different types of strategies to create a `Promise` entry
-- does not require additional changes to existing components, just use the context of the `Promise Bridge`
-- support `AbortSignal`
-- **function call to open a bridge, works both inside and outside `React` components**
+There are exactly three pieces:
 
-## How to use
+| Piece | What it is | Who uses it |
+| --- | --- | --- |
+| `Container` | Where opened components are mounted | rendered once, anywhere in your tree (or a separate root) |
+| `open(element)` | Mounts `element` and returns a `Promise` | your app — event handlers, effects, plain JS |
+| `usePromiseBridge()` | Gives the mounted component `{ resolve, reject, signal }` | the component passed to `open()` |
 
-1. Import and create container with invoke function of `Promise Bridge`
+`Container` and `open` come as a pair from `PromiseBridge.create()`. Calling `resolve`/`reject`
+settles the promise returned by `open` **and unmounts the component**.
 
-```javascript
-// ./SystemPromiseBridge.tsx
+## Quick start
+
+**1. Create a bridge** (a `Container` + its `open` function):
+
+```ts
+// SystemPromiseBridge.ts
 import { PromiseBridge } from '@piotar/react-promise-bridge';
 
-// the name of the container and function depends on you
+// Names are yours to choose.
 export const [Container, open] = PromiseBridge.create();
 ```
 
-2. Put Container of `Promise Bridge` wherever you want in the dom `React` or mount in directly on `DOM`
+**2. Mount the `Container` once** — anywhere in the tree, or on a dedicated DOM root:
 
-```javascript
-// ./main.tsx
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { App } from './App';
+```tsx
+// main.tsx
 import { Container } from './SystemPromiseBridge';
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+root.render(
     <App>
-        {/* ... */}
+        {/* ...your app... */}
         <Container />
     </App>,
 );
 
-// or directly as DOM element
-ReactDOM.createRoot(document.getElementById('modals')).render(<Container />);
+// or fully detached from the app tree:
+// createRoot(document.getElementById('modals')!).render(<Container />);
 ```
 
-3. Use `usePromiseBridge` in component to `resolve` or `reject` `Promise`.
+**3. Build a component that settles the promise** via `usePromiseBridge`:
 
-```javascript
-// ./Confirm.tsx
+```tsx
+// Confirm.tsx
 import { usePromiseBridge } from '@piotar/react-promise-bridge';
 
-interface ConfirmProps {
-    header?: string;
-    message: string;
-}
-
-export function Confirm({ header, message }: ConfirmProps): ReactElement {
+export function Confirm({ message }: { message: string }) {
+    // <boolean> is the resolve type; reject reason defaults to `any`.
     const { resolve, reject } = usePromiseBridge<boolean>();
 
     return (
-        <dialog open={true}>
-            {header ? <header>{header}</header> : null}
+        <dialog open>
             <p>{message}</p>
-            <footer>
-                <button type="button" onClick={() => reject(new Error('Canceled'))}>
-                    Cancel
-                </button>
-                <button type="button" onClick={() => resolve(true)}>
-                    Confirm
-                </button>
-            </footer>
+            <button onClick={() => reject(new Error('Cancelled'))}>Cancel</button>
+            <button onClick={() => resolve(true)}>Confirm</button>
         </dialog>
     );
 }
 ```
 
-4. Use the invoke `Promise Bridge` function wherever you want.
+**4. `open` it and `await` the result** — from inside or outside React:
 
-Invoke promise bridge function to open component inside `React` component:
-
-```javascript
-// ./App.tsx
+```tsx
 import { open } from './SystemPromiseBridge';
 
-export function App({ children }: React.PropsWithChildren<unknown>): ReactElement {
-    const handleConfirmClick = async () => {
-        try {
-            await open(<Confirm header="Confirmation" message="Some custom message" />);
-            // handle confirm
-            console.log('confirmed');
-        } catch (error) {
-            console.warn(error);
-        }
-    };
-
-    return (
-        <div>
-            <button type="button" onClick={handleConfirmClick}>
-                Open confirm modal
-            </button>
-            {/* ... */}
-        </div>
-    );
+async function confirmDelete() {
+    try {
+        await open<boolean>(<Confirm message="Delete this item?" />);
+        console.log('confirmed');
+    } catch (error) {
+        console.warn('cancelled', error);
+    }
 }
 ```
 
-Invoke promise bridge function to open component outside `React`:
-
-```javascript
-import { open } from './SystemPromiseBridge';
-
-setTimeout(async () => {
-    try {
-        const result = await open(<Confirm message="my custom message" />);
-        console.log(result);
-    } catch (error) {
-        console.error(error);
-    }
-}, 1000);
-```
-
-Try it on:
+> ⚠️ The `Container` must be mounted before you call `open`, otherwise `open` throws
+> `ContainerNotMountedException`.
 
 [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz_small.svg)](https://stackblitz.com/github/piotar/react-promise-bridge/tree/main/examples/01_basic?file=src/App.tsx)
 
-## Hooks
+## API
 
-### `usePromiseBridge`
+### `PromiseBridge.create(options?)`
 
-The main hook for resolving or rejecting `Promise`.
+Returns `[Container, open]`.
 
-```javascript
+```ts
+const [Container, open] = PromiseBridge.create({
+    isMultiContainer: false, // allow more than one mounted Container for this bridge
+    // container: CustomContainerComponent, // advanced: override the container renderer
+});
+```
+
+### `open(element, options?) => Promise<T>`
+
+Mounts `element` in the `Container` and resolves/rejects when the component calls
+`resolve`/`reject`. Type the result with `open<T>(...)`.
+
+```ts
+open<string>(<ColorPicker />, {
+    signal,                          // AbortSignal — abort cancels the pending entry
+    strategy: EntryStategy.Recreate, // how to treat an entry with the same id
+    id: 'colorPicker',               // required by Recreate / RejectIfExists strategies
+});
+```
+
+### Hooks
+
+#### `usePromiseBridge<T, R>()`
+
+The core hook. Read inside a component opened by `open`. Throws `MissingContextException` if used
+outside a bridged component.
+
+```ts
 const { resolve, reject, signal } = usePromiseBridge<ResolveType, RejectType>();
 ```
 
-[Example in StackBlitz](https://stackblitz.com/github/piotar/react-promise-bridge/tree/main/examples/01_basic?file=src/components/ColorPicker.tsx:L12)
+[Example](https://stackblitz.com/github/piotar/react-promise-bridge/tree/main/examples/01_basic?file=src/components/ColorPicker.tsx:L12)
 
-### `useDeferredPromiseBridge`
+#### `useDeferredPromiseBridge<T, R>()`
 
-A hook based on `usePromiseBridge`. 
+For **exit animations**. `resolve`/`reject` don't settle immediately — they move `state` to
+`Pending` so you can keep the component mounted and play a closing animation, then call `trigger`
+(e.g. in `onAnimationEnd`) to actually settle and unmount.
 
-The hook is designed to manage animation.
-
-The hook allows you to defer the fulfilled `Promise` and release it by calling a `trigger` function.
-
-```javascript
-const {
-    resolve,
-    reject,
-    signal,
-    state,
-    trigger,
-    Provider,
-} = useDeferredPromiseBridge<ResolveType, RejectType>();
+```ts
+const { resolve, reject, signal, state, trigger, Provider } =
+    useDeferredPromiseBridge<ResolveType, RejectType>();
+// state is one of PromiseState.Initial | Pending | Settled
 ```
 
-[Example in StackBlitz](https://stackblitz.com/github/piotar/react-promise-bridge/tree/main/examples/02_animation?file=src/components/ColorPicker.tsx:L12)
+[Example](https://stackblitz.com/github/piotar/react-promise-bridge/tree/main/examples/02_animation?file=src/components/ColorPicker.tsx:L12)
 
-### `useDisposePromiseBridge`
+#### `useDisposePromiseBridge(signals?)`
 
-The helper hook is designed to help create an abort controller to reject `Promise` after the trigger component is destroyed.
+Returns an `AbortController` whose signal aborts when the **calling (trigger) component** unmounts —
+pass `signal` to `open` so any in-flight entry is rejected automatically when its opener disappears.
 
-```javascript
-const abortController = useDisposePromiseBridge(signals);
+```ts
+const { signal } = useDisposePromiseBridge();
+await open(<ColorPicker />, { signal });
 ```
 
-[Example in StackBlitz](https://stackblitz.com/github/piotar/react-promise-bridge/tree/main/examples/08_destroy_component?file=src/components/SomeChild.tsx:L8)
+[Example](https://stackblitz.com/github/piotar/react-promise-bridge/tree/main/examples/08_destroy_component?file=src/components/SomeChild.tsx:L8)
 
-### `useFactoryPromiseBridge`
+#### `useFactoryPromiseBridge(options?)`
 
-A helper hook for creating a new `Promise Bridge` instance for dynamic React components.
+Creates a bridge **scoped to the component instance** (memoized), instead of a module-level
+singleton. Useful for nested/dynamic containers (e.g. a drawer that can open another drawer).
 
-```javascript
-const [Container, opener] = useFactoryPromiseBridge(options);
+```ts
+const [Container, open] = useFactoryPromiseBridge(options);
 ```
 
-[Example in StackBlitz](https://stackblitz.com/github/piotar/react-promise-bridge/tree/main/examples/i03_antd?file=src/components/Drawer.tsx:L32)
+[Example](https://stackblitz.com/github/piotar/react-promise-bridge/tree/main/examples/i03_antd?file=src/components/Drawer.tsx:L32)
+
+### Entry strategies — `EntryStategy`
+
+Passed via `open(element, { strategy, id })` to control duplicate entries:
+
+| Strategy | Behaviour | Needs `id` |
+| --- | --- | --- |
+| `EntryStategy.Normal` *(default)* | Always opens a new entry. | no |
+| `EntryStategy.Recreate` | Rejects an existing entry with the same `id` (with `EntryRecreateException`), then opens a fresh one. | yes |
+| `EntryStategy.RejectIfExists` | If an entry with the same `id` already exists, the new `open` throws `EntryExistsException`. | yes |
+
+### Enums & types
+
+- **`PromiseState`** — `Initial`, `Pending`, `Settled` (used by `useDeferredPromiseBridge`).
+- **`AbortSignalStrategy`** — `Any` (abort if *any* source signal aborts) / `Every` (only when *all*
+  do); used by `ComposeAbortController` when composing multiple signals.
+- **`ComposeAbortController`** — an `AbortController` that aborts based on a set of source signals.
+
+### Exceptions
+
+All extend `PromiseBridgeException`, so you can `catch` broadly or narrow by class. Among them:
+`ContainerNotMountedException`, `ContainerDestroyedException`, `ContainerLimitReachedException`,
+`EntryExistsException`, `EntryRecreateException`, `MissingEntryIdException`, `MissingContextException`,
+`TriggerComponentDestroyedException`, and the abort-related `EntryAbortedBySignalException` /
+`ExternalAbortSignalException`.
 
 ## Examples
 
 | Repository example | Open in StackBlitz |
 | --- | --- |
 | [#01 Basic](/examples/01_basic/) | [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz_small.svg)](https://stackblitz.com/github/piotar/react-promise-bridge/tree/main/examples/01_basic?file=src/App.tsx) |
-| [#02 Animation](/examples//02_animation/) | [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz_small.svg)](https://stackblitz.com/github/piotar/react-promise-bridge/tree/main/examples/02_animation?file=src/App.tsx) |
-| [#03 Animation with classes](/examples//03_animation_classname/) | [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz_small.svg)](https://stackblitz.com/github/piotar/react-promise-bridge/tree/main/examples/03_animation_classname?file=src/App.tsx) |
-| [#04 Abort controller](/examples//04_abort_controller/) | [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz_small.svg)](https://stackblitz.com/github/piotar/react-promise-bridge/tree/main/examples/04_abort_controller?file=src/App.tsx) |
+| [#02 Animation](/examples/02_animation/) | [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz_small.svg)](https://stackblitz.com/github/piotar/react-promise-bridge/tree/main/examples/02_animation?file=src/App.tsx) |
+| [#03 Animation with classes](/examples/03_animation_classname/) | [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz_small.svg)](https://stackblitz.com/github/piotar/react-promise-bridge/tree/main/examples/03_animation_classname?file=src/App.tsx) |
+| [#04 Abort controller](/examples/04_abort_controller/) | [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz_small.svg)](https://stackblitz.com/github/piotar/react-promise-bridge/tree/main/examples/04_abort_controller?file=src/App.tsx) |
 | [#05 Entry with strategy recreate](/examples/05_strategy_recreate/) | [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz_small.svg)](https://stackblitz.com/github/piotar/react-promise-bridge/tree/main/examples/05_strategy_recreate?file=src/App.tsx) |
 | [#06 Entry with strategy reject if exists](/examples/06_strategy_reject_if_exists/) | [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz_small.svg)](https://stackblitz.com/github/piotar/react-promise-bridge/tree/main/examples/06_strategy_reject_if_exists?file=src/App.tsx) |
 | [#07 Multicontainer](/examples/07_multicontainers/) | [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz_small.svg)](https://stackblitz.com/github/piotar/react-promise-bridge/tree/main/examples/07_multicontainers?file=src/App.tsx) |
@@ -215,3 +262,7 @@ const [Container, opener] = useFactoryPromiseBridge(options);
 | [#i01 Material UI (MUI)](/examples/i01_mui/) | [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz_small.svg)](https://stackblitz.com/github/piotar/react-promise-bridge/tree/main/examples/i01_mui?file=src/App.tsx) |
 | [#i02 React Bootstrap](/examples/i02_bootstrap/) | [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz_small.svg)](https://stackblitz.com/github/piotar/react-promise-bridge/tree/main/examples/i02_bootstrap?file=src/App.tsx) |
 | [#i03 Ant design (antd)](/examples/i03_antd/) | [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz_small.svg)](https://stackblitz.com/github/piotar/react-promise-bridge/tree/main/examples/i03_antd?file=src/App.tsx) |
+
+## License
+
+[MIT](./LICENSE) © Piotr Tarasiuk

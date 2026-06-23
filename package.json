@@ -25,7 +25,9 @@
     "homepage": "https://github.com/piotar/react-promise-bridge",
     "type": "module",
     "files": [
-        "dist"
+        "dist",
+        "README.md",
+        "SKILL.md"
     ],
     "main": "./dist/react-promise-bridge.umd.cjs",
     "module": "./dist/react-promise-bridge.js",
