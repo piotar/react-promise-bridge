@@ -126,8 +126,8 @@ surfaces as whatever you pass to `reject`. Library-originated rejections include
 
 ## Working on this repo
 
-- Build: `bun run build` (`tsc && vite build`). Type-check: `bun run type-check`. Tests:
-  `bun run test` (Vitest + happy-dom). Coverage: `bun run coverage`.
+- Build: `bun run build` (`tsc && vite build`). Typecheck: `bun run typecheck`. Lint:
+  `bun run lint` (prettier --check). Tests: `bun run test` (Vitest + happy-dom). Coverage: `bun run coverage`.
 - Runnable demos live in `examples/*` (each is its own Vite app: `01_basic` … `08_destroy_component`,
   plus `i01_mui` / `i02_bootstrap` / `i03_antd` integrations). The repo root is a library and has no
   `index.html`, so `bun run dev` at the root serves nothing — run an example instead.
