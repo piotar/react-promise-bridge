@@ -1,0 +1,14 @@
+{
+    "$schema": "https://anthropic.com/claude-code/plugin.schema.json",
+    "name": "react-promise-bridge",
+    "version": "1.0.0",
+    "description": "Render a React component and await the value it produces as a Promise — for confirm dialogs, modals, popups, toasts, pickers, and any \"ask the user, get an answer back\" flow.",
+    "author": {
+        "name": "Piotr Tarasiuk"
+    },
+    "homepage": "https://github.com/piotar/react-promise-bridge",
+    "repository": "https://github.com/piotar/react-promise-bridge.git",
+    "license": "MIT",
+    "keywords": ["react", "promise", "dialog", "modal"],
+    "skills": ["./"]
+}
