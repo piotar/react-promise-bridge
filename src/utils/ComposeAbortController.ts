@@ -8,7 +8,10 @@ export interface ComposeAbortControllerOptions {
 export class ComposeAbortController extends AbortController {
     protected readonly options: ComposeAbortControllerOptions;
 
-    constructor(protected readonly signals: AbortSignal[] = [], options?: ComposeAbortControllerOptions) {
+    constructor(
+        protected readonly signals: AbortSignal[] = [],
+        options?: ComposeAbortControllerOptions,
+    ) {
         super();
         this.options = {
             strategy: AbortSignalStrategy.Any,
