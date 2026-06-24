@@ -27,7 +27,8 @@
     "files": [
         "dist",
         "README.md",
-        "SKILL.md"
+        "SKILL.md",
+        ".claude-plugin"
     ],
     "main": "./dist/react-promise-bridge.umd.cjs",
     "module": "./dist/react-promise-bridge.js",

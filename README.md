@@ -297,6 +297,31 @@ A few behaviours are intentional but easy to trip over:
 | [#i02 React Bootstrap](/examples/i02_bootstrap/) | [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz_small.svg)](https://stackblitz.com/github/piotar/react-promise-bridge/tree/main/examples/i02_bootstrap?file=src/App.tsx) |
 | [#i03 Ant design (antd)](/examples/i03_antd/) | [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz_small.svg)](https://stackblitz.com/github/piotar/react-promise-bridge/tree/main/examples/i03_antd?file=src/App.tsx) |
 
+## AI agents
+
+A [`SKILL.md`](./SKILL.md) (agentskills.io format) ships with the package so the library can be taught
+to AI agents and installed via a skill manager.
+
+### Claude Code plugin
+
+The package doubles as a [Claude Code](https://docs.claude.com/en/docs/claude-code) plugin — a
+[`.claude-plugin/plugin.json`](./.claude-plugin/plugin.json) manifest exposes the bundled `SKILL.md`
+as a `react-promise-bridge` skill. Load it straight from `node_modules` (no separate install):
+
+```sh
+claude --plugin-dir node_modules/@piotar/react-promise-bridge     # per-session
+```
+
+To make the skill available globally instead, symlink the installed package into your skills directory
+— it then auto-loads in every session:
+
+```sh
+ln -s "$(npm root)/@piotar/react-promise-bridge" ~/.claude/skills/react-promise-bridge
+```
+
+Either way Claude gains a `react-promise-bridge` skill that knows when and how to bridge a React
+component to an awaitable promise.
+
 ## License
 
 [MIT](./LICENSE) © Piotr Tarasiuk
