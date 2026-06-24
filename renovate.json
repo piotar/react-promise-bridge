@@ -1,11 +1,19 @@
 {
     "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-    "extends": ["config:recommended"],
+    "extends": ["config:recommended", "schedule:weekly"],
     "platformAutomerge": true,
+    "minimumReleaseAge": "3 days",
+    "internalChecksFilter": "strict",
     "packageRules": [
         {
-            "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+            "description": "Automerge all dependencies once CI passes",
+            "matchPackageNames": ["*"],
             "automerge": true
+        },
+        {
+            "description": "Never automerge major updates; review them manually",
+            "matchUpdateTypes": ["major"],
+            "automerge": false
         }
     ]
 }
