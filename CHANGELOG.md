@@ -1,5 +1,13 @@
 # @piotar/react-promise-bridge
 
+## 1.1.0
+
+### Minor Changes
+
+- 689e459: Ship a Claude Code plugin manifest (`.claude-plugin/plugin.json`) that exposes the bundled `SKILL.md`
+  as a `react-promise-bridge` skill, so the package can be loaded directly from `node_modules` as a
+  Claude Code plugin.
+
 ## 1.0.0
 
 ### Major Changes
