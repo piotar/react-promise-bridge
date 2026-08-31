@@ -58,7 +58,7 @@
     },
     "devDependencies": {
         "@changesets/cli": "2.31.1",
-        "@happy-dom/global-registrator": "20.11.6",
+        "@happy-dom/global-registrator": "20.11.12",
         "@testing-library/react": "16.3.3",
         "@types/react": "19.2.18",
         "@vitejs/plugin-react": "6.0.5",
